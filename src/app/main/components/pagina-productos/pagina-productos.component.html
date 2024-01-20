@@ -1,0 +1,47 @@
+<app-header></app-header>
+
+<br>
+<br>
+
+
+<div *ngIf="loading">Cargando...</div>
+
+<!-- Agrega los botones de categoría -->
+<div class="p-d-flex p-jc-center mb-5 p-flex-wrap">
+    <p-button *ngFor="let categoria of listadocategoria" 
+              label="{{categoria.nombre}}" 
+              (onClick)="filtrarPorCategoria(categoria.id)" 
+              styleClass="custom-button p-button-text p-button-outlined p-m-2"
+    ></p-button>
+  </div>
+  
+
+<!-- Lista de Productos filtrados por categoría -->
+<div class="d-flex align-items-center justify-content-center flex-wrap w-100 h-100 gap-4" >
+    <div *ngFor="let producto of listadoproductosFiltrados" class="d-flex" (click)="openModal(producto)">
+        <div class="card shadow rounded-3" style="height: 30rem; width: 22rem; padding: 1rem;">
+            <div style="width: 100%; overflow: hidden; height: 300px; text-align: center; background-color: brown; background-position: center;">
+                <img class="w-100 h-100" [src]="producto.imagenes && producto.imagenes.length > 0 ? producto.imagenes[0].publicUrl : ''" alt="Imagen del producto" width="100" height="auto" loading="lazy" style="object-fit: fill">
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">{{ producto.nombre }}</h5>
+                <p class="card-text">{{ producto.descripcion }}</p>
+                <p class="card-text">{{ producto.precio }}</p>
+                <button type="button" class="btn btn-primary" [attr.data-bs-target]="'#productosModal' + producto.id">
+                    Ver Detalles
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="{{ selectedProduct?.descripcion }}" [(visible)]="displayModal" [style]="{ width: '50%' }">
+    <div>
+        <img [src]="selectedProduct?.imagenes?.[0]?.publicUrl || ''" alt="{{ selectedProduct?.descripcion }}" style="width: 100%;" class="card-img-top">
+        <p>Valor: {{ selectedProduct?.precio }}</p>
+        <button *ngIf="selectedProduct" (click)="agregarAlCarrito(selectedProduct)">Agregar al carrito</button>
+    </div>
+</p-dialog>
+
+<app-footer></app-footer>

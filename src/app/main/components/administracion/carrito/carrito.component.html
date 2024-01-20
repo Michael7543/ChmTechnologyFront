@@ -1,0 +1,59 @@
+<div class="container">
+  <h2 class="mt-5 text-center fw-bold">Lista de Carrito</h2>
+  
+  <p-table 
+  [style]="{width: '75vw'}" class="card table__content shadow-9 m-3 surface-card table-container" #dt
+    [value]="listadocarrito" dataKey="id" [rows]="10" id="season-tble" [showCurrentPageReport]="true"
+    [paginator]="true" responsiveLayout="scroll"
+    currentPageReportTemplate="Datos {first} a {last} de {totalRecords} registros" [rowHover]="true"
+    [globalFilterFields]="['producto.nombre','servicio.nombre','usuario.nombre']"
+    [loading]="loading">
+
+    <ng-template pTemplate="caption">
+      
+      <div class="d-flex justify-content-between align-items-center flex-wrap header-content-table">
+        <span class="p-input-icon-left mb-2 md:mb-0 search-input-container">
+          <i class="bi bi-search search-icon"></i>
+          <input pInputText type="text" (input)="dt.filterGlobal(getEventValue($event),'contains')"
+            placeholder="Buscar.." />
+        </span>
+        <div class="container-btn-header">
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-carritoItem>
+      <tr>
+        <th>Nombre del Producto</th>
+        <th>Nombre del Servicio</th>
+        <th>Nombre del Usuario</th>
+        <th>Opciones</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-carritoItem>
+      <tr class="tablas">
+        <td [ngClass]="{'no-existe': !carritoItem.producto?.nombre}">
+          {{ carritoItem.producto?.nombre ?? 'No Existe Producto' }}
+        </td>
+        <td [ngClass]="{'no-existe': !carritoItem.servicio?.nombre}">
+          {{ carritoItem.servicio?.nombre ?? 'No Existe Servicio' }}
+        </td>
+        <td [ngClass]="{'no-existe': !carritoItem.usuario?.nombre}">
+          {{ carritoItem.usuario?.nombre ?? 'No Existe Usuario' }}
+        </td>
+        <td class="btn_acctions-mod">
+          <button pButton pRipple icon="pi pi-trash" class="btn-acctions rounded-3"
+            style="background-color:rgb(215, 19, 19);" (click)="eliminarCarrito(carritoItem.id)"
+            aria-label="Eliminar"></button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary" class="bg-dark-subtle">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <small>Actualmente, hay {{listadocarrito ? listadocarrito.length : 0 }} productos en el carrito</small>
+      </div>
+    </ng-template>
+  </p-table>
+</div>

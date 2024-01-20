@@ -1,0 +1,103 @@
+* {
+    text-decoration: none;
+    list-style     : none;
+    box-sizing     : border-box;
+}
+
+.header-contact-info {
+    background: #00406E;
+}
+
+ul.items-social-media.d-flex {
+    align-items: center;
+    margin     : 0;
+    gap        : 1rem;
+}
+
+.navbar__logo {
+    width       : 100px;
+    margin-right: 20px;
+}
+
+.container-logo {
+    margin-right: 4.6rem;
+}
+
+.navbar {
+    background-color: #ffffff;
+    margin-bottom   : 20px;
+}
+
+.navbar-brand {
+    font-size  : 24px;
+    font-weight: 500;
+}
+
+.login-button {
+    padding   : 0.5rem 1.5rem;
+    background: #ad1fff;
+    color     : white;
+    font-size : 1rem;
+    transition: all 0.3s background-color ease-in-out;
+}
+
+.login-button:hover {
+    background-color: #600097;
+}
+
+.navbar-toggler {
+    border   : none;
+    font-size: 1.25rem;
+}
+
+.navbar-toggler:focus,
+.btn-close:focus {
+    outline   : none;
+    box-shadow: none;
+}
+
+.nav-link {
+    color      : #666777;
+    font-weight: 500;
+    position   : relative;
+}
+
+.nav-link:hover,
+.nav-link:active {
+    color: #000000;
+}
+
+button.btn-close.text-reset {
+    margin-right: 1rem;
+}
+
+@media (min-width: 991px) {
+    .nav-link::before {
+        content         : '';
+        position        : absolute;
+        bottom          : 0;
+        left            : 50%;
+        transform       : translateX(-50%);
+        width           : 0;
+        height          : 2px;
+        background-color: #ad1fff;
+        visibility      : hidden;
+        transition      : all 0.3s ease-in-out;
+    }
+
+    .nav-link:hover::before,
+    .nav-link.active::before {
+        width     : 100%;
+        visibility: visible;
+    }
+}
+
+@media (max-width: 991px) {
+    .nav-link:hover {
+        color: #009970;
+    }
+}
+
+.cerrar {
+    cursor: pointer;
+}

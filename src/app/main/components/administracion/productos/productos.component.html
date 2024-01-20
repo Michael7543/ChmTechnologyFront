@@ -1,0 +1,216 @@
+<div class="container">
+  <h2 class="mt-5 text-center fw-bold">Lista de Productos</h2>
+  <p-table [style]="{width: '75vw'}" class="card table__content shadow-9 m-3 surface-card table-container" #dt
+    [value]="listadoproductos" dataKey="id" [rows]="10" id="season-tble" [showCurrentPageReport]="true"
+    [paginator]="true" responsiveLayout="scroll"
+    currentPageReportTemplate="Datos {first} a {last} de {totalRecords} registros" [rowHover]="true"
+    [globalFilterFields]="['id','nombre','descripcion','marca','precio','stock','categoria.nombre','estado']"
+    [loading]="loading">
+
+    <ng-template pTemplate="caption">
+      <div class="d-flex justify-content-between align-items-center flex-wrap header-content-table">
+        <span class="p-input-icon-left mb-2 md:mb-0 search-input-container">
+          <i class="bi bi-search search-icon"></i>
+          <input pInputText type="text" (input)="dt.filterGlobal(getEventValue($event),'contains')"
+            placeholder="Buscar.." />
+        </span>
+        <div class="container-btn-header">
+          <button pButton pRipple label="Agregar" icon="pi pi-plus" class="p-button-success btn-agregar"
+            data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-producto>
+      <tr>
+        <th>ID</th>
+        <th pSortableColumn="nombre" style="min-width: 10rem; max-width: 10rem;">Nombre<p-sortIcon field="nombre">
+          </p-sortIcon>
+        </th>
+        <th>Descripcion</th>
+        <th>Marca</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Categoria</th>
+        <th>Estado</th>
+        <th>Imagenes</th>
+        <th>Acciones</th>
+
+      </tr>
+    </ng-template>
+
+
+    <ng-template pTemplate="body" let-producto>
+      <ng-container *ngIf="listadoproductos">
+        <tr class="tablas">
+          <td>{{ producto.id}}</td>
+          <td>{{ producto.nombre}}</td>
+          <td>{{ producto.descripcion}}</td>
+          <td>{{ producto.marca }}</td>
+          <td>{{ producto.precio | currency: 'USD' }}</td>
+          <td>{{ producto.stock }}</td>
+          <td>{{ producto.categoria.nombre}}</td>
+          <td> <mark
+              [ngClass]="{'activo': producto.estado === 'Activo', 'inactivo': producto.estado === 'Inactivo'}">{{ producto.estado}}</mark>
+          </td>
+          <td>
+            <div *ngFor="let imagen of producto.imagenes; trackBy: trackByImagen">
+              <img [src]="imagen.publicUrl" alt="imagen" width="60" height="auto" loading="lazy">
+            </div>
+          </td>
+          <td class="btn_acctions-mod">
+            <button pButton pRipple icon="pi pi-trash" class="btn-acctions rounded-3"
+              style="background-color:rgb(215, 19, 19);" (click)="eliminarProducto(producto.id)"
+              aria-label="Eliminar"></button>
+            <button pButton pRipple icon="pi pi-pencil" class="btn-acctions rounded-3" style="background-color:#FB8B24;"
+              (click)="editProducto(producto)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+              aria-label="Editar"></button>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-template>
+
+    <ng-template pTemplate="summary" class="bg-dark-subtle">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <small>Actualmente, hay {{listadoproductos ? listadoproductos.length : 0 }} productos disponibles</small>
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header p-3 px-5">
+        <h5 class="modal-title fw-bold" id="exampleModalLabel">Agregar Producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="ProductosForm.reset();this.selectProducto = {};"></button>
+      </div>
+      <div class="modal-body p-4 px-4">
+        <form enctype="multipart/form-data" [formGroup]="ProductosForm"
+          (ngSubmit)="saveProductos(); ProductosForm.reset()">
+          <div class="user-details py-2">
+            <div class="row">
+
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="nombre" name="nombre"
+                      class="form-control p-inputtext-sm" aria-describedby="nombre del producto" required>
+                    <label htmlFor="nombre">Nombre</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="ProductosForm.get('nombre')?.hasError('required') && ProductosForm.get('nombre')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="marca" name="marca"
+                      class="form-control p-inputtext-sm" prequired>
+                    <label htmlFor="marca">Marca</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="ProductosForm.get('marca')?.hasError('required') && ProductosForm.get('marca')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="number" pKeyFilter="money" maxlength="10" keyfilter="int"
+                      formControlName="precio" name="precio" class="form-control p-inputtext-sm" required>
+                    <label htmlFor="precio">Precio</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="ProductosForm.get('precio')?.hasError('required') && ProductosForm.get('precio')?.touched">
+                    <span>Este campo es <strong>obligatorio</strong></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" pKeyFilter="int" (input)="onInput($event)" maxlength="10"
+                      keyfilter="int" formControlName="stock" name="stock" class="form-control p-inputtext-sm" required>
+                    <label htmlFor="stock">Stock</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="ProductosForm.get('stock')?.hasError('required') && ProductosForm.get('stock')?.touched">
+                    <span>Este campo es <strong>obligatorio</strong></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <label class="form-label">Categoria</label>
+                  <div class="custom-select-wrapper">
+                    <select class="custom-select form-select" id="categoria" name="categoria" placeholder="categoria"
+                      formControlName="categoria">
+                      <option value="" disabled selected>Seleccione una categoría</option>
+                      <option *ngFor="let categoria of listadocategoria; trackBy: trackByCategoria"
+                        [value]="categoria.nombre">{{ categoria.nombre }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <label class="form-label">Estado</label>
+                  <div class="custom-select-wrapper">
+                    <select class="custom-select form-select" id="estado" name="estado" placeholder="estado"
+                      formControlName="estado" aria-label="Estados de producto">
+                      <option value="" disabled selected>Seleccione un Estado</option>
+                      <option *ngFor="let option of estados" [value]="option">{{ option }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" formControlName="descripcion" name="descripcion"
+                      class="form-control p-inputtext-sm" required>
+                    <label htmlFor="descripcion">Descripción</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="ProductosForm.get('descripcion')?.hasError('required') && ProductosForm.get('descripcion')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="input-box d-flex flex-column gap-1">
+                <span class="details">Imagen</span>
+                <div class="d-flex gap-2">
+                  <input type="file" (change)="onFileSelected($event)" formControlName="file" accept="file/*" class="form-control">
+                  <img class="img-fluid mt-2" *ngIf="selectedFile" [src]="selectedFile" alt="Preview" width="140"
+                    height="40" />
+                </div>
+              </div>
+
+            </div>
+
+            <div class="d-flex gap-3">
+              <button type="button" pButton pRipple class="p-button-danger rounded-2" data-bs-dismiss="modal"
+                (click)="ProductosForm.reset();this.selectProducto = {};" aria-label="Boton Cancelar">Cerrar</button>
+              <button type="button" pButton pRipple type="submit" class="p-button-success rounded-2"
+                data-bs-dismiss="modal" [disabled]="ProductosForm.invalid" aria-label="Boton Guardar">Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

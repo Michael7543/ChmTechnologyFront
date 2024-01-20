@@ -1,0 +1,17 @@
+::ng-deep .p-button.custom-button {
+    color: #1b1a1a; /* Color de texto personalizado */
+    border-radius: 8px; /* Borde redondeado */
+    background-color: #ffffff;
+    border: none;
+    position: relative;
+    border-color: #1b1a1a;
+  }
+  
+  ::ng-deep .p-button.custom-button.active:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+   
+  }

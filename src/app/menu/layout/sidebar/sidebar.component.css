@@ -1,0 +1,86 @@
+* {
+  box-sizing: border-box;
+}
+
+.border-white {
+  border: 1px solid white;
+}
+
+.side-nav-content ul {
+  text-decoration: none;
+  list-style     : none;
+  color          : #000000;
+}
+
+.side-nav-content {
+  width       : 96%;
+  margin-right: 0.625rem;
+  margin-left : 0.3125rem;
+}
+
+.nav-list {
+  list-style   : none;
+  height       : 100%;
+  padding      : 0;
+  margin-bottom: 0;
+}
+
+.nav-list-item {
+  display    : flex;
+  align-items: center;
+  height     : 50px;
+  gap        : 1.2rem;
+  padding    : 0 .50rem;
+  cursor     : pointer;
+
+}
+
+.nav-list-open .nav-list-item:hover {
+  background-color: #B0D9FF;
+  color           : #000000;
+  border-radius   : 10px;
+  transition      : 0.5s;
+}
+
+.nav-list-item i {
+  font-size   : 1.25rem;
+  height      : 1.5625rem;
+  width       : 1.5625rem;
+  margin-right: 0.9375rem;
+  font-weight : bold;
+  text-align  : center;
+  line-height : 1.5625rem;
+}
+
+.modules {
+  display      : grid;
+  align-items  : center;
+  background   : #002E59;
+  color        : white;
+  width        : 16.100rem;
+  height       : 3.125rem;
+  position     : relative;
+  right        : 0.625rem;
+  margin-bottom: 0.3125rem;
+}
+
+.nav-list-item span {
+  width         : 10.625rem;
+  text-transform: capitalize;
+}
+
+a {
+  display        : block;
+  text-decoration: none;
+  color          : #000000;
+  font-weight    : 500;
+  padding        : .50rem;
+}
+
+span:hover a {
+  color: #002E59;
+}
+
+.fa-solid .fa-id-badge {
+  font-size: 1.25rem;
+}

@@ -1,0 +1,165 @@
+<section class="background-radial-gradient overflow-hidden">
+
+  <div class="container px-4 pt-5 pb-1 px-md-5 text-center text-lg-start my-5 container-card">
+    <div class="row gx-lg-5 align-items-center justify-content-center mb-5 container-card-content">
+      <div class="col-lg-6 mb-5 mb-lg-0 d-flex flex-column align-items-center" style="z-index: 10">
+        <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+          <img src="../../../../../assets/CHMTECNOLOGY.png" alt="logo" width="300" height="auto"
+            style="filter: drop-shadow(5px 5px 4px white)"> <br />
+          <span style="color: hsl(218, 81%, 75%); filter: drop-shadow(5px 5px 9px rgba(255, 255, 255, 0.863))">Servicio
+            Técnico</span>
+        </h1>
+        <blockquote class="text-center shadow">
+          <p class="opacity-70" style="color: hsl(218, 81%, 85%)">
+            " Elevamos la excelencia en servicio técnico. Nuestra dedicación a la innovación y la maestría técnica nos
+            distingue como líderes en el campo. Con un compromiso inquebrantable hacia la calidad y la satisfacción del
+            cliente, transformamos desafíos técnicos en soluciones brillantes.Tu tecnología, nuestra pasión; tu
+            satisfacción, nuestro compromiso. "
+            <cite class="font-italic" title="Sitio web oficial de CHM TECHNOLOGY">CHM TECHNOLOGY</cite>
+          </p>
+        </blockquote>
+      </div>
+
+      <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+        <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+
+        <div class="card bg-glass rounded-5">
+          <div class="card-body px-4 py-5 px-md-5">
+            <form [formGroup]="FormUsuario" (ngSubmit)="agregarUsuario()">
+              <div class="form-outline mb-4">
+                <h1 class="text-center fw-bold ls-tight">Registrarse</h1>
+              </div>
+              <div class="row input-mod">
+                <!-- Nombre input -->
+                <div class="col-md-6 form-outline mb-4">
+                  <label for="" class="form-label p-text-bold">Nombre</label>
+                  <input type="text" (input)="onInputletras($event)" class="form-control" formControlName="nombre"
+                    name="nombre" title="Ingrese su nombre" required>
+                  <ng-container *ngTemplateOutlet="mensajeErrorNombre"></ng-container>
+                </div>
+                <!-- Apellido input -->
+                <div class="col-md-6 form-outline mb-4">
+                  <label for="" class="form-label p-text-bold">Apellido</label>
+                  <input type="text" (input)="onInputletras($event)" class="form-control" formControlName="apellido"
+                    name="apellido" title="Ingrese su Apellido" required>
+                  <ng-container *ngTemplateOutlet="mensajeErrorApellido"></ng-container>
+                </div>
+              </div>
+              <!-- Email input -->
+              <div class="form-outline mb-4 input-mod">
+                <label for="email" class="form-label p-text-bold">Correo Electrónico</label>
+                <input type="email" id="email" class="form-control" formControlName="email" name="email"
+                  title="Ingrese su correo electrónico" required>
+                <ng-container *ngTemplateOutlet="mensajeErrorEmail"></ng-container>
+              </div>
+              <!-- Username input -->
+              <div class="form-outline mb-4 input-mod">
+                <label class="form-label p-text-bold" for="username">Nombre de usuario</label>
+                <input type="text" id="username" autocomplete="username" class="form-control" formControlName="username"
+                  name="username" title="Ingrese su nombre de usuario" required />
+                <ng-container *ngTemplateOutlet="mensajeErrorUsername"></ng-container>
+              </div>
+              <div class="row input-mod">
+                <!-- telefono input -->
+                <div class="col-md-6 form-outline mb-4">
+                  <label for="telefono" class="form-label p-text-bold">Teléfono</label>
+                  <input type="text" (input)="onInput($event)" minlenght="10" maxlength="10" keyfilter="int"
+                    class="form-control" formControlName="telefono" name="telefono"
+                    title="Ingrese su número de teléfono" required>
+                  <ng-container *ngTemplateOutlet="mensajeErrorTelefono"></ng-container>
+                </div>
+                <!-- input dirección -->
+                <div class="col-md-6 form-outline mb-4">
+                  <label for="direccion" class="form-label p-text-bold">Dirección</label>
+                  <input type="text" class="form-control" formControlName="direccion" name="direccion"
+                    title="Ingrese su Dirección" required>
+                  <ng-container *ngTemplateOutlet="mensajeErrorDireccion"></ng-container>
+                </div>
+              </div>
+
+              <div class="form-outline mb-4 position-relative">
+                <label class="form-label p-text-bold" for="password">Contraseña</label>
+                <input type="password" id="password" class="form-control" name="password" formControlName="password"
+                  [type]="mostrarContrasenia ? 'text' : 'password'" autocomplete="password" aria-label="Contraseña"
+                  title="Ingrese su contraseña" />
+
+                <a (click)="mostrarContrasenia = !mostrarContrasenia" class="eye-icon" aria-label="Mostrar Contraseña"
+                  href="javascript:void(0)">
+                  <i class="pi pi-eye-slash" aria-label="Icono Contraseña oculta" title="ocultar / mostar"></i>
+                </a>
+              </div>
+
+              <!-- Botón de enviar -->
+              <button type="submit" [disabled]="FormUsuario.invalid"
+                class="btn btn-primary btn-block mb-4 w-100 p-text-bold" aria-label="Iniciar Sesión">
+                Registrarse
+              </button>
+
+              <!-- Botones de contácto -->
+              <div class="text-center">
+
+                <p class="p-text-bold text-decoration-underline">Contáctanos:</p>
+                <button type="button" class="btn btn-link btn-floating mx-1 btn-social" aria-label="Facebook"
+                  title="Página de Facebook Oficial">
+                  <i class="bi bi-facebook" alt="Facebook"></i>
+                </button>
+
+                <button type="button" class="btn btn-link btn-floating mx-1 btn-social" aria-label="Gmail">
+                  <i class="bi bi-google" alt="Gmail"></i>
+                </button>
+
+                <button type="button" class="btn btn-link btn-floating mx-1 btn-social" aria-label="TikTok">
+                  <i class="bi bi-tiktok" alt="Tiktok" title="Página de Tiktok Oficial"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Templates mesajes de error -->
+
+<ng-template #mensajeErrorNombre>
+  <div class="text-danger"
+    *ngIf="FormUsuario.get('nombre')?.hasError('required') && FormUsuario.get('nombre')?.touched">
+    <small>Este campo es <strong>obligatorio</strong></small>
+  </div>
+</ng-template>
+
+<ng-template #mensajeErrorApellido>
+  <div class="text-danger"
+    *ngIf="FormUsuario.get('apellido')?.hasError('required') && FormUsuario.get('apellido')?.touched">
+    <small>Este campo es <strong>obligatorio</strong></small>
+  </div>
+</ng-template>
+
+<ng-template #mensajeErrorUsername>
+  <div class="text-danger"
+    *ngIf="FormUsuario.get('username')?.hasError('required') && FormUsuario.get('username')?.touched">
+    <small>Este campo es <strong>obligatorio</strong></small>
+  </div>
+</ng-template>
+
+<ng-template #mensajeErrorTelefono>
+  <div class="text-danger"
+    *ngIf="FormUsuario.get('telefono')?.hasError('required') && FormUsuario.get('telefono')?.touched">
+    <small>Este campo es <strong>obligatorio</strong></small>
+  </div>
+</ng-template>
+
+<ng-template #mensajeErrorDireccion>
+  <div class="text-danger"
+    *ngIf="FormUsuario.get('direccion')?.hasError('required') && FormUsuario.get('direccion')?.touched">
+    <small>Este campo es <strong>obligatorio</strong></small>
+  </div>
+</ng-template>
+
+<ng-template #mensajeErrorEmail>
+  <div class="text-danger" *ngIf="FormUsuario.get('email')?.hasError('required') && FormUsuario.get('email')?.touched">
+    <small>Este campo es <strong>obligatorio</strong></small>
+  </div>
+</ng-template>

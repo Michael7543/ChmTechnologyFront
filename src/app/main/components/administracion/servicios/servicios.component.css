@@ -1,0 +1,79 @@
+/* Estilos Tabla CSS */
+* {
+  box-sizing : border-box;
+  font-size  : 16px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.mt-5.text-center.fw-bold {
+  font-size: 1.5rem;
+}
+
+td {
+  padding: 1rem;
+}
+
+.container {
+  width         : 100%;
+  height        : 100%;
+  display       : flex;
+  flex-direction: column;
+  align-items   : center;
+}
+
+td.btn_acctions-mod {
+  display        : flex;
+  justify-content: center;
+  flex-direction : column;
+  align-items    : center;
+  gap            : 0.5rem;
+}
+
+.btn-acctions {
+  border     : none;
+  font-weight: bold;
+}
+
+.caption {
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  flex-direction : row;
+}
+
+.btn-agregar {
+  padding      : 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+}
+
+.activo {
+  background-color: rgba(28, 255, 28, 0.747);
+  color           : rgb(2, 141, 2);
+  font-weight     : bold;
+  border-radius   : 0.75rem;
+  padding         : 0.5rem 0.75rem;
+}
+
+.inactivo {
+  background-color: red;
+  color           : white;
+  font-weight     : bold;
+  border-radius   : 0.75rem;
+  padding         : 0.5rem 0.75rem;
+}
+
+@media (max-width: 523px) {
+  .header-content-table {
+    justify-content: center !important;
+    gap            : 1rem !important;
+  }
+}
+
+/* Estilos Modal Crear Productos */
+.modal-dialog {
+  max-width: 50%;
+}
+
+div.input-box.d-flex.flex-column.gap-1 {
+  margin-bottom: 2rem;
+}

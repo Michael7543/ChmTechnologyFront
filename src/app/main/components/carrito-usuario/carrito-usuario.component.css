@@ -1,0 +1,11 @@
+.cantidad-container {
+  cursor: pointer;
+}
+
+.cantidad-container:hover {
+  text-decoration: underline;
+}
+
+p-table {
+  border: none;
+}

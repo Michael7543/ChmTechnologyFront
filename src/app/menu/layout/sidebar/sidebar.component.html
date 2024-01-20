@@ -1,0 +1,21 @@
+<div class="side-nav-content">
+  <div class="modules">
+    <h5 class="text-center">Administrador</h5>
+  </div>  
+  <ul class="nav-list" [ngClass]="{'nav-list-open': sideNavState}">
+    <li class="nav-list-item" *ngFor="let item of list">
+      <i class="{{item.icon}}"></i>
+      <span>
+        <a routerLink="{{item.route}}">
+          {{item.name}}
+        </a>
+      </span>
+    </li>
+    <li class="nav-list-item position-absolute bottom-0">
+      <i class="pi pi-sign-out"></i>
+      <span>
+        <a (click)="logout()">Cerrar Sesión</a>
+      </span>
+    </li>
+  </ul>
+</div>

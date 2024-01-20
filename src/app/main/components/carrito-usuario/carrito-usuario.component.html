@@ -1,0 +1,60 @@
+<div class="container">
+  <h2 class="mt-5 text-center fw-bold">Lista de Carrito</h2>
+
+  <ng-container *ngIf="listadocarrito && listadocarrito.length > 0">
+    <ng-container *ngIf="hayProductosServiciosEnCarrito(listadocarrito)">
+      <p-table [style]="{width: '82vw'}" class="card p-shadow-10 table table-striped table-hover mt-3"
+        [value]="listadocarrito" #dt [value]="listadocarrito" dataKey="id" [rows]="10" id="season-tble"
+        [showCurrentPageReport]="true" [paginator]="true" responsiveLayout="scroll"
+        currentPageReportTemplate="Datos {first} a {last} de {totalRecords} registros" [rowHover]="true"
+        [globalFilterFields]="['producto.nombre','servicio.nombre','usuario.nombre']" [loading]="loading">
+
+        <!-- Header de la tabla -->
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Nombre del Producto/Servicio</th>
+            <th>Foto</th>
+            <th>Cantidad</th>
+            <th>Opciones</th>
+          </tr>
+        </ng-template>
+
+        <!-- Cuerpo de la tabla -->
+        <ng-template pTemplate="body" let-carritoItem>
+          <tr class="tablas">
+            <td [ngClass]="{'no-existe': !carritoItem.producto?.nombre && !carritoItem.servicio?.nombre}">
+              {{ carritoItem.producto?.nombre || carritoItem.servicio?.nombre || 'No Existe Producto/Servicio' }}
+            </td>
+            <td>
+              <div
+                *ngIf="carritoItem.producto && carritoItem.producto.imagenes && carritoItem.producto.imagenes.length > 0">
+                <img [src]="carritoItem.producto.imagenes[0].publicUrl" alt="Imagen del producto" width="50"
+                  height="50">
+              </div>
+              <div
+                *ngIf="carritoItem.servicio && carritoItem.servicio.imagenes && carritoItem.servicio.imagenes.length > 0">
+                <img [src]="carritoItem.servicio.imagenes[0].publicUrl" alt="Imagen del servicio" width="50"
+                  height="50">
+              </div>
+            </td>
+            <td>
+              <select class="form-select" [(ngModel)]="carritoItem.cantidad"
+                (change)="modificarCantidad(carritoItem, carritoItem.cantidad)">
+                <option *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [value]="i">{{ i }}</option>
+              </select>
+            </td>
+            <td class="btn_acctions-mod">
+              <button pButton type="button" icon="pi pi-trash" class="p-button-danger btn-acctions rounded-3"
+                (click)="eliminarCarrito(carritoItem.id)" aria-label="Eliminar"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <div class="container text-right mt-3 d-flex justify-content-end align-items-center">
+        <button pButton type="button" icon="pi pi-check" class="p-button-success rounded-3"
+          (click)="realizarPago()">Cotizar</button>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

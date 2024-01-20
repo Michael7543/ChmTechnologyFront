@@ -1,0 +1,327 @@
+<div class="container">
+  <h2 class="mt-5 text-center fw-bold">Lista de Usuarios</h2>
+  <p-table [style]="{width: '75vw'}" class="card table__content shadow-9 m-3 surface-card table-container" #dt
+    [value]="listadousuario" dataKey="id" [rows]="10" id="season-tble" [showCurrentPageReport]="true" [paginator]="true"
+    responsiveLayout="scroll" currentPageReportTemplate="Datos {first} a {last} de {totalRecords} registros"
+    [rowHover]="true"
+    [globalFilterFields]="['id','nombre','apellido','telefono','direccion','email','username','role.name']" [loading]="loading">
+
+    <ng-template pTemplate="caption">
+      <div class="d-flex justify-content-between align-items-center flex-wrap header-content-table">
+        <span class="p-input-icon-left mb-2 md:mb-0 search-input-container">
+          <i class="bi bi-search search-icon"></i>
+          <input pInputText type="text" (input)="dt.filterGlobal(getEventValue($event),'contains')"
+            placeholder="Buscar.." />
+        </span>
+        <div class="container-btn-header">
+          <button pButton pRipple label="Agregar" icon="pi pi-plus" class="p-button-success btn-agregar"
+            data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-producto>
+      <tr>
+        <th>ID</th>
+        <th pSortableColumn="nombre" style="min-width: 10rem; max-width: 10rem;">Nombre<p-sortIcon field="nombre">
+          </p-sortIcon>
+        </th>
+        <th>Apellido</th>
+        <th>Correo</th>
+        <th>Direccion</th>
+        <th>Telefono</th>
+        <th>Username</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+
+      </tr>
+    </ng-template>
+
+
+    <ng-template pTemplate="body" let-usuario>
+      <ng-container *ngIf="listadousuario">
+        <tr class="tablas">
+          <td>{{ usuario.id }}</td>
+          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.apellido }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.direccion }}</td>
+          <td>{{ usuario.telefono}}</td>
+          <td>{{ usuario.username}}</td>
+          <td>
+            <ng-container *ngFor="let rol of usuario.role">
+              {{ rol.name }}
+            </ng-container>
+          </td>
+          <td class="btn_acctions-mod">
+            <button pButton pRipple icon="pi pi-trash" class="btn-acctions rounded-3"
+              style="background-color:rgb(215, 19, 19);" (click)="eliminarUsuario(usuario.id)"
+              aria-label="Eliminar"></button>
+            <button pButton pRipple icon="pi pi-pencil" class="btn-acctions rounded-3" style="background-color:#FB8B24;"
+              (click)="editusuario(usuario)" data-bs-toggle="modal" data-bs-target="#exampleModal2"
+              aria-label="Editar"></button>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-template>
+
+    <ng-template pTemplate="summary" class="bg-dark-subtle">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <small>Actualmente, hay {{listadousuario ? listadousuario.length : 0 }} usuarios disponibles</small>
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header p-3 px-5">
+        <h5 class="modal-title fw-bold" id="exampleModalLabel">Agregar Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="UsuarioForm.reset()"></button>
+      </div>
+      <div class="modal-body p-4 px-4">
+        <form  [formGroup]="UsuarioForm"
+          (ngSubmit)="agregarUsuario()">
+          <div class="user-details py-2">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="nombre" name="nombre"
+                      class="form-control p-inputtext-sm" aria-describedby="nombre del producto" required>
+                    <label htmlFor="nombre">Nombre</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="UsuarioForm.get('nombre')?.hasError('required') && UsuarioForm.get('nombre')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="apellido" name="apellido"
+                      class="form-control p-inputtext-sm" prequired>
+                    <label htmlFor="apellido">Apellido</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="UsuarioForm.get('apellido')?.hasError('required') && UsuarioForm.get('apellido')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText (input)="onInput($event)"  type="text" minlenght="10" maxlength="10" keyfilter="int" formControlName="telefono"
+                      name="telefono" class="form-control p-inputtext-sm" required>
+                    <label htmlFor="telefono">Telefono</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="UsuarioForm.get('telefono')?.hasError('required') && UsuarioForm.get('telefono')?.touched">
+                    <span>Este campo es <strong>obligatorio</strong></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="direccion" name="direccion"
+                      class="form-control p-inputtext-sm" prequired>
+                    <label htmlFor="direccion">Direccion</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="UsuarioForm.get('direccion')?.hasError('required') && UsuarioForm.get('direccion')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="email" name="email"
+                      class="form-control p-inputtext-sm" prequired>
+                    <label htmlFor="correo">Correo</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="UsuarioForm.get('email')?.hasError('required') && UsuarioForm.get('email')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                    <div class="text-danger" *ngIf="UsuarioForm.get('email')?.hasError('email')">
+                      El correo electrónico no tiene un formato válido.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="username" name="username"
+                      class="form-control p-inputtext-sm" prequired>
+                    <label htmlFor="nombreusuario">Nombre de usuario</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="UsuarioForm.get('username')?.hasError('required') && UsuarioForm.get('username')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <label htmlFor="password">Clave</label>
+                  <div class="input-group">
+                    <input  class="form-control" [type]="mostrarContrasenia ? 'text' : 'password'" name="password"
+                      formControlName="password">
+                    <a class=""
+                      style="background: #b6d4f3; padding: 0.50rem 8px;  padding-top: 0.42rem; padding-bottom: 0.56rem;"
+                      (click)="mostrarContrasenia = !mostrarContrasenia">
+                      <i class="pi pi-eye-slash"></i>
+                    </a>
+                  </div>
+                  <div class="text-danger"
+                    *ngIf="UsuarioForm.get('password')?.hasError('required') && UsuarioForm.get('password')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex gap-3">
+              <button type="button" pButton pRipple class="p-button-danger rounded-2" data-bs-dismiss="modal"
+                (click)="UsuarioForm.reset()" aria-label="Boton Cancelar">Cerrar</button>
+              <button type="button" pButton pRipple type="submit" class="p-button-success rounded-2"
+                data-bs-dismiss="modal" [disabled]="UsuarioForm.invalid" aria-label="Boton Guardar">Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- modal actualizar -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header p-3 px-5">
+        <h5 class="modal-title fw-bold" id="exampleModalLabel">Editar Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="UsuarioForm.reset()"></button>
+      </div>
+      <div class="modal-body p-4 px-4">
+        <form  [formGroup]="UsuarioForm"
+          (ngSubmit)="updateUsuario()">
+          <div class="user-details py-2">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="nombre" name="nombre"
+                      class="form-control p-inputtext-sm" aria-describedby="nombre del producto">
+                    <label htmlFor="nombre">Nombre</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="UsuarioForm.get('nombre')?.hasError('required') && UsuarioForm.get('nombre')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="apellido" name="apellido"
+                      class="form-control p-inputtext-sm" >
+                    <label htmlFor="apellido">Apellido</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="UsuarioForm.get('apellido')?.hasError('required') && UsuarioForm.get('apellido')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" (input)="onInput($event)" minlenght="10" maxlength="10" keyfilter="int" formControlName="telefono"
+                      name="telefono" class="form-control p-inputtext-sm" >
+                    <label htmlFor="telefono">Telefono</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="UsuarioForm.get('telefono')?.hasError('required') && UsuarioForm.get('telefono')?.touched">
+                    <span>Este campo es <strong>obligatorio</strong></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="direccion" name="direccion"
+                      class="form-control p-inputtext-sm" >
+                    <label htmlFor="direccion">Direccion</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="UsuarioForm.get('direccion')?.hasError('required') && UsuarioForm.get('direccion')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="email" name="email"
+                      class="form-control p-inputtext-sm" >
+                    <label htmlFor="correo">Correo</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="UsuarioForm.get('email')?.hasError('required') && UsuarioForm.get('email')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                    <div class="text-danger" *ngIf="UsuarioForm.get('email')?.hasError('email')">
+                      El correo electrónico no tiene un formato válido.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="username" name="username"
+                      class="form-control p-inputtext-sm" >
+                    <label htmlFor="nombreusuario">Nombre de usuario</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="UsuarioForm.get('username')?.hasError('required') && UsuarioForm.get('username')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <label class="form-label">Roles</label>
+                  <div class="custom-select-wrapper">
+                    <select class="custom-select form-select" id="role" name="role" placeholder="roles"
+                      formControlName="role">
+                      <option value="" disabled selected>Seleccione un Rol</option>
+                      <option *ngFor="let option of roles" [value]="option">{{ option }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex gap-3">
+              <button type="button" pButton pRipple class="p-button-danger rounded-2" data-bs-dismiss="modal"
+                (click)="UsuarioForm.reset()" aria-label="Boton Cancelar">Cerrar</button>
+              <button type="button" pButton pRipple type="submit" class="p-button-success rounded-2"
+                data-bs-dismiss="modal"  aria-label="Boton Guardar">Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

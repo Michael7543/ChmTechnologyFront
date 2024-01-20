@@ -1,0 +1,52 @@
+.contenido.card {
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  width          : 80%;
+  left           : 19%;
+  margin-top     : 1rem;
+  border         : none;
+}
+
+app-navbar {
+  position: fixed;
+  top     : 0;
+  width   : 100%;
+  height  : 4rem;
+  z-index : 1;
+}
+
+main.main {
+  position: absolute;
+  width   : 100%;
+  top     : 4rem;
+}
+
+app-sidebar {
+  position   : fixed;
+  left       : 0;
+  width      : 3.125rem;
+  height     : calc(100vh - 4rem);
+  box-shadow : 0px 0px 10px rgba(0, 0, 0, 0.5);
+  background : #E6F3FF;
+  overflow-x : hidden;
+  white-space: nowrap;
+  transition : 0.5s;
+}
+
+.app-side-nav-open {
+  width: 15.625rem;
+}
+
+.display-area {
+  position  : absolute;
+  left      : 3.75rem;
+  width     : calc(100% - 3.75rem);
+  transition: 0.5s;
+}
+
+.display-area-shrink {
+  position: absolute;
+  width   : calc(100% - 15.625rem);
+  left    : 15.626rem;
+}

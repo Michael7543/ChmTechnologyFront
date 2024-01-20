@@ -1,0 +1,134 @@
+<app-header></app-header>
+
+<br>
+<br>
+<!-- <div class="container">
+  <h2 class="mb-5 text-center fw-bold">Bienvenido a Nuestra Página de Inicio</h2>
+
+  <div class="video-container">
+    <iframe
+    src="https://www.youtube.com/embed/NaoNcERVF78?si=GkhpxFDEL8zlmjUh"
+    title="YouTube video player"
+    frameborder="0"
+    allow=" autoplay;"
+    allowfullscreen
+    autoplay
+
+  ></iframe>
+  
+  
+  </div>
+</div> -->
+<div class="container">
+  <h2 class="mb-5 text-center fw-bold">Bienvenido a Nuestra Página de Inicio</h2>
+
+  <div class="video-container">
+    <video width="100%" height="auto"  muted loop autoplay playsinline>
+      <source src="/assets/chm2.mp4" type="video/mp4">
+      Tu navegador no soporta el tag de video.
+    </video>
+  </div>
+</div>
+
+<br>
+<br>
+
+
+<!-- CARD CON DATOS CATEGORIA -->
+<!-- <div *ngFor="let categoria of listadocategoria" class="d-flex" (click)="verMas(categoria)">
+  <div class="card shadow rounded-3" style="width: 22rem; padding: 1rem;">
+  
+    <div class="card-body">
+      <h5 class="card-title">{{ categoria.nombre }}</h5>
+      <p class="card-text">{{ categoria.descripcion }}</p>
+      <p class="card-text">{{ categoria.estado }}</p>
+    
+      <button type="button" class="btn btn-primary" (click)="verMas(categoria)">
+        Ver Más
+      </button>
+    </div>
+  </div>
+</div> -->
+<h1 class="text-center mb-5">CATALOGOS</h1>
+<div class="d-flex align-items-center justify-content-center h-100">
+  <div class="d-flex gap-4">
+    <div class="card">
+      <img src="/assets/productos.png" alt="Imagen de Producto" class="card-img-top w-100" style="height: 200px; object-fit: cover;">
+      <div class="card-body">
+        <h5 class="card-title">Productos</h5>
+        <a [routerLink]="['/productos']" class="btn btn-primary">Ir a Productos</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="/assets/servicios.jpeg" alt="Imagen de Servicio" class="card-img-top w-100" style="height: 200px; object-fit: cover;">
+      <div class="card-body">
+        <h5 class="card-title">Servicios</h5>
+        <a [routerLink]="['/servicios']" class="btn btn-primary">Ir a Servicios</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+<br>
+<!-- contacto-formulario.component.html -->
+<!-- <div class="container mt-5 formulario-con-bordes-negros text-center">
+  <h1 class="mb-4">Contacto</h1>
+
+  <form (ngSubmit)="enviarMensaje()" #contactForm="ngForm">
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="nombre" class="form-label">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" ngModel class="form-control border-black" required>
+      </div>
+      <div class="col-md-6">
+        <label for="correo" class="form-label">Correo Electrónico:</label>
+        <input type="email" id="correo" name="correo" ngModel class="form-control border-black" required>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="numero" class="form-label">Número de Teléfono:</label>
+        <input type="tel" id="numero" name="numero" ngModel class="form-control border-black" required>
+      </div>
+      <div class="col-md-6">
+        <label for="sugerencia" class="form-label">Sugerencia:</label>
+        <textarea id="sugerencia" name="sugerencia" ngModel class="form-control border-black" rows="4" required></textarea>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <button type="submit" class="btn btn-primary">Enviar por WhatsApp</button>
+      </div>
+    </div>
+  </form>
+</div> -->
+
+<!-- app.component.html -->
+<!-- app.component.html -->
+<form (ngSubmit)="enviarDatos()" #formulario="ngForm">
+  <label for="nombre">Nombre:</label>
+  <input type="text" id="nombre" name="nombre" [(ngModel)]="datos.nombre" required>
+
+  <label for="numero">Número:</label>
+  <input type="tel" id="numero" name="numero" [(ngModel)]="datos.numero" required>
+
+  <label for="correo">Correo Electrónico:</label>
+  <input type="email" id="correo" name="correo" [(ngModel)]="datos.correo" required>
+
+  <label for="mensaje">Asunto:</label>
+  <textarea id="mensaje" name="mensaje" [(ngModel)]="datos.mensaje" required></textarea>
+
+  <button type="submit">Enviar</button>
+</form>
+
+
+
+
+
+
+
+<app-footer></app-footer>

@@ -1,0 +1,92 @@
+<section class="background-radial-gradient overflow-hidden">
+
+  <div class="container px-4 pt-5 pb-1 px-md-5 text-center text-lg-start my-5 container-card">
+    <div class="row gx-lg-5 align-items-center justify-content-center mb-5 container-card-content">
+      <div class="col-lg-6 mb-5 mb-lg-0 d-flex flex-column align-items-center" style="z-index: 10">
+        <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+          <img src="../../../../../assets/CHMTECNOLOGY.png" alt="logo" width="300" height="auto"
+            style="filter: drop-shadow(5px 5px 4px white)"> <br />
+          <span style="color: hsl(218, 81%, 75%); filter: drop-shadow(5px 5px 9px rgba(255, 255, 255, 0.863))">Servicio
+            Técnico</span>
+        </h1>
+        <blockquote class="text-center shadow">
+          <p class="opacity-70" style="color: hsl(218, 81%, 85%)">
+            " Elevamos la excelencia en servicio técnico. Nuestra dedicación a la innovación y la maestría técnica nos
+            distingue como líderes en el campo. Con un compromiso inquebrantable hacia la calidad y la satisfacción del
+            cliente, transformamos desafíos técnicos en soluciones brillantes.Tu tecnología, nuestra pasión; tu
+            satisfacción, nuestro compromiso. "
+            <cite class="font-italic" title="Sitio web oficial de CHM TECHNOLOGY">CHM TECHNOLOGY</cite>
+          </p>
+        </blockquote>
+      </div>
+
+      <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+        <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+
+        <div class="card bg-glass rounded-5">
+          <div class="card-body px-4 py-5 px-md-5">
+            <form (ngSubmit)="login()"  #formulario="ngForm">
+              <div class="form-outline mb-4">
+                <h1 class="text-center fw-bold ls-tight">Iniciar Sesión</h1>
+              </div>
+              <!-- Email input -->
+              <div class="form-outline mb-4">
+                <label class="form-label p-text-bold" for="username">Email</label>
+                <input type="email" id="username" [(ngModel)]="username" autocomplete="username" class="form-control"
+                  name="username" required title="Ingrese su correo electrónico" />
+              </div>
+
+              <div class="form-outline mb-4 position-relative">
+                <label class="form-label p-text-bold" for="password">Contraseña</label>
+                <input type="password" id="password" class="form-control" name="password" [(ngModel)]="password"
+                  [type]="mostrarContrasenia ? 'text' : 'password'" autocomplete="password" aria-label="Contraseña"
+                  title="Ingrese su contraseña" />
+
+                <a (click)="mostrarContrasenia = !mostrarContrasenia" class="eye-icon" aria-label="Mostrar Contraseña"
+                  href="javascript:void(0)">
+                  <i class="pi pi-eye-slash" aria-label="Icono Contraseña oculta" title="ocultar / mostar"></i>
+                </a>
+              </div>
+
+              <!-- Botón de enviar -->
+              <button type="submit" class="btn btn-primary btn-block mb-4 w-100 p-text-bold"
+                aria-label="Iniciar Sesión" [disabled]="formulario.invalid">
+                Iniciar Sesión
+              </button>
+              <!-- Boton de redirección al registro -->
+              <div class="row mb-4 text-wrap">
+                <div class="col text-start text-sm-start">
+                  <small class="d-flex align-items-center justify-content-center" style="white-space: normal;">
+                    ¿Aún no tienes una cuenta?&nbsp;
+                    <a routerLink="/auth/register" class="ms-2 btn-sm">Regístrate aquí</a>
+                  </small>
+                </div>
+              </div>
+              
+
+
+              <!-- Botones de contácto -->
+              <div class="text-center">
+
+                <p class="p-text-bold text-decoration-underline">Contáctanos:</p>
+                <button type="button" class="btn btn-link btn-floating mx-1 btn-social" aria-label="Facebook"
+                  title="Página de Facebook Oficial">
+                  <i class="bi bi-facebook" alt="Facebook"></i>
+                </button>
+
+                <button type="button" class="btn btn-link btn-floating mx-1 btn-social" aria-label="Gmail">
+                  <i class="bi bi-google" alt="Gmail"></i>
+                </button>
+
+                <button type="button" class="btn btn-link btn-floating mx-1 btn-social" aria-label="TikTok">
+                  <i class="bi bi-tiktok" alt="Tiktok" title="Página de Tiktok Oficial"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

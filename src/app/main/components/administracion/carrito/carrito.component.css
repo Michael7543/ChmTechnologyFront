@@ -1,0 +1,14 @@
+.p-datatable {
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .no-existe {
+    color: red;
+  }
+  
+  /* Estilos para filas alternas (opcional) */
+  .p-datatable .p-datatable-tbody tr:nth-child(odd) {
+    background-color: #f4f4f4;
+  }
+  

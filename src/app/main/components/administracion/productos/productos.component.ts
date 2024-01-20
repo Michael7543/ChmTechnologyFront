@@ -49,6 +49,8 @@ export class ProductosComponent implements OnInit {
         stock: [0, Validators.required],
         categoria: ['', Validators.required],
         estado: ['', Validators.required],
+        codigo: ['', Validators.required],
+        modelo: ['', Validators.required],
         file: [''],
       });
     }
@@ -112,6 +114,8 @@ export class ProductosComponent implements OnInit {
       precio: lista.precio,
       categoria: lista.categoria.nombre,
       estado: lista.estado,
+      codigo: lista.codigo,
+      modelo: lista.modelo,
       file: lista.file
     });
   }

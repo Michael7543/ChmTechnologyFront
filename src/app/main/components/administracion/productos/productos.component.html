@@ -31,6 +31,8 @@
         <th>Marca</th>
         <th>Precio</th>
         <th>Stock</th>
+        <th>Codigo</th>
+        <th>Modelo</th>
         <th>Categoria</th>
         <th>Estado</th>
         <th>Imagenes</th>
@@ -49,6 +51,8 @@
           <td>{{ producto.marca }}</td>
           <td>{{ producto.precio | currency: 'USD' }}</td>
           <td>{{ producto.stock }}</td>
+          <td>{{ producto.codigo }}</td>
+          <td>{{ producto.modelo }}</td>
           <td>{{ producto.categoria.nombre}}</td>
           <td> <mark
               [ngClass]="{'activo': producto.estado === 'Activo', 'inactivo': producto.estado === 'Inactivo'}">{{ producto.estado}}</mark>
@@ -120,6 +124,33 @@
                   </div>
                 </div>
               </div>
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="modelo" name="modelo"
+                      class="form-control p-inputtext-sm" aria-describedby="modelo del producto" required>
+                    <label htmlFor="modelo">Modelo</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="ProductosForm.get('modelo')?.hasError('required') && ProductosForm.get('modelo')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="codigo" name="codigo"
+                      class="form-control p-inputtext-sm" aria-describedby="codigo del producto" required>
+                    <label htmlFor="codigo">Codigo</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="ProductosForm.get('codigo')?.hasError('required') && ProductosForm.get('codigo')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+
 
               <div class="col-md-6">
                 <div class="input-box d-flex flex-column gap-1">

@@ -124,7 +124,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/home/administracion/usuario']);
         break;
       case 'BASIC':
-        this.router.navigate(['/paginainicio']);
+        this.router.navigate(['/inicio']);
         break;
       // Agrega más casos según los roles que tengas
       default:

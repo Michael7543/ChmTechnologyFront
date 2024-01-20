@@ -106,29 +106,39 @@
     </div>
   </form>
 </div> -->
-
 <!-- app.component.html -->
-<!-- app.component.html -->
-<form (ngSubmit)="enviarDatos()" #formulario="ngForm">
-  <label for="nombre">Nombre:</label>
-  <input type="text" id="nombre" name="nombre" [(ngModel)]="datos.nombre" required>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form (ngSubmit)="enviarDatos()" #formulario="ngForm" class="p-4 rounded" style="background-color: #00406E; position: relative; height: 420px;">
 
-  <label for="numero">Número:</label>
-  <input type="tel" id="numero" name="numero" [(ngModel)]="datos.numero" required>
+        <!-- Título dentro del formulario -->
+        <h2 class="text-center text-white mb-4">Formulario de Contacto</h2>
 
-  <label for="correo">Correo Electrónico:</label>
-  <input type="email" id="correo" name="correo" [(ngModel)]="datos.correo" required>
+        <label for="nombre" class="text-white">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" [(ngModel)]="datos.nombre" class="form-control" required>
 
-  <label for="mensaje">Asunto:</label>
-  <textarea id="mensaje" name="mensaje" [(ngModel)]="datos.mensaje" required></textarea>
+        <label for="numero" class="text-white">Número:</label>
+        <input type="tel" id="numero" name="numero" [(ngModel)]="datos.numero" class="form-control" required>
 
-  <button type="submit">Enviar</button>
-</form>
+        <label for="correo" class="text-white">Correo Electrónico:</label>
+        <input type="email" id="correo" name="correo" [(ngModel)]="datos.correo" class="form-control" required>
+
+        <label for="mensaje" class="text-white">Asunto:</label>
+        <textarea id="mensaje" name="mensaje" [(ngModel)]="datos.mensaje" class="form-control" required></textarea>
+
+        <button type="submit" class="btn btn-light mt-3">Enviar</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15959.071166384721!2d-78.56137532611902!3d-0.2883571953408768!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d598a43ac62447%3A0x44ee54b1710617eb!2sLas%20Cuadras%2C%20Quito!5e0!3m2!1ses!2sec!4v1705788464279!5m2!1ses!2sec"
+        width="600" height="420" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</div>
 
 
-
-
-
+<app-Whatsapp class="bg-danger" style="position: fixed; bottom: 70px; right: 10px;"></app-Whatsapp>
 
 
 <app-footer></app-footer>

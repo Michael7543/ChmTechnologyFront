@@ -25,6 +25,7 @@ import { PaginaservicioModule } from './pagina-servicios/paginaservicio.module';
     PaginaproductoModule,
     PaginaservicioModule,
     CarritousuarioModule
+
     
   ],
   declarations: [

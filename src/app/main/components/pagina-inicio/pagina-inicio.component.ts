@@ -72,27 +72,45 @@ export class PaginaInicioComponent implements OnInit {
   enviarDatos() {
     // Verifica que todos los campos necesarios estén presentes
     if (this.datos.nombre && this.datos.numero && this.datos.correo && this.datos.mensaje) {
-
+  
       // Configura los datos que se enviarán a través de EmailJS
       const emailjsData = {
         to_name: this.datos.nombre,
         from_name: this.datos.numero,
+        to_email: this.datos.correo,
         message: this.datos.mensaje,
-        // Puedes agregar otros campos según lo necesites
       };
-
-      // Envia el correo electrónico a través de EmailJS
+      
+      console.log(emailjsData); // Verifica si los datos del correo electrónico son correctos
+      
       emailjs.send('service_6bq6ajp', 'template_8oq30kh', emailjsData, 'vGg3XGGDDJzrRQEvg')
         .then((response) => {
           console.log('Correo enviado con éxito:', response);
+  
+          // Muestra un SweetAlert de éxito
+          Swal.fire({
+            icon: 'success',
+            title: '¡Envío exitoso!',
+            text: 'Tu mensaje ha sido enviado con éxito.',
+          });
+  
+          // Limpia el formulario
+          this.datos = { nombre: '', numero: '', correo: '', mensaje: '' };
+  
           // Puedes mostrar un mensaje de éxito o redirigir a otra página aquí
         })
         .catch((error) => {
           console.error('Error al enviar correo:', error);
+  
+          // Muestra un SweetAlert de error
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al enviar el correo',
+            text: 'Hubo un problema al enviar el correo. Por favor, inténtalo de nuevo.',
+          });
+  
           // Puedes manejar errores y mostrar un mensaje de error al usuario
         });
-    } else {
-      console.error('Faltan datos para enviar el correo electrónico.');
     }
   }
   

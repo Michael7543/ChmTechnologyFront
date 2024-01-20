@@ -9,6 +9,8 @@ export interface ProductoModel {
    precio: number;
    stock: number;
    estado: string;
+   modelo: string;
+   codigo: string;
    categoria: CategoriaModel;
    imagenes?: ImagenModel[];
    filename?: string;

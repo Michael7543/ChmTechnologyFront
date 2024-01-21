@@ -4,16 +4,19 @@
 <br>
 
 
-<div *ngIf="loading">Cargando...</div>
-
-<!-- Agrega los botones de categoría -->
-<div class="p-d-flex p-jc-center mb-5 p-flex-wrap">
-    <p-button *ngFor="let categoria of listadocategoria" 
-              label="{{categoria.nombre}}" 
-              (onClick)="filtrarPorCategoria(categoria.id)" 
-              styleClass="custom-button p-button-text p-button-outlined p-m-2"
-    ></p-button>
+<div *ngIf="loading; else content">
+    Cargando...
   </div>
+  <ng-template #content>
+    <!-- Agrega los botones de categoría -->
+    <div class="p-d-flex p-jc-center mb-5 p-flex-wrap">
+      <p-button *ngFor="let categoria of listadocategoria" 
+                label="{{categoria.nombre}}" 
+                (onClick)="filtrarPorCategoria(categoria.id)" 
+                styleClass="custom-button p-button-text p-button-outlined p-m-2"
+      ></p-button>
+    </div>
+  </ng-template>
   
 
 <!-- Lista de Productos filtrados por categoría -->

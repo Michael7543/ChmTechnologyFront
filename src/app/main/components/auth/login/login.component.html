@@ -26,18 +26,29 @@
 
         <div class="card bg-glass rounded-5">
           <div class="card-body px-4 py-5 px-md-5">
-            <form (ngSubmit)="login()"  #formulario="ngForm">
+            <form (ngSubmit)="login()" #formulario="ngForm">
               <div class="form-outline mb-4">
                 <h1 class="text-center fw-bold ls-tight">Iniciar Sesión</h1>
               </div>
               <!-- Email input -->
-              <div class="form-outline mb-4">
+              <div class="form-outline mb-2">
                 <label class="form-label p-text-bold" for="username">Email</label>
-                <input type="email" id="username" [(ngModel)]="username" autocomplete="username" class="form-control"
-                  name="username" required title="Ingrese su correo electrónico" />
+                <input pInputText type="email" id="username" [(ngModel)]="username" autocomplete="username"
+                  class="form-control ng-invalid ng-dirty" name="username" required title="Ingrese su correo electrónico" pattern="[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"/>
+                <ng-container *ngTemplateOutlet="mensajeErrorEmail"></ng-container>
+              </div>
+              <!-- Password input -->
+              <div class="mb-4 w-100">
+                <label class="form-label p-text-bold w-100" for="password">Contraseña</label>
+                <p-password [(ngModel)]="password" name="password" [toggleMask]="true"
+                  [promptLabel]="passwordPromptLabel" [weakLabel]="weakLabel" [mediumLabel]="mediumLabel"
+                  [strongLabel]="strongLabel" [inputStyle]="{ 'width': '100%'}" [style]="{'width':'100%'}"
+                  class="text-base text-color surface-overlay border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-100"
+                  required>
+                </p-password>
               </div>
 
-              <div class="form-outline mb-4 position-relative">
+              <!-- <div class="form-outline mb-4 position-relative">
                 <label class="form-label p-text-bold" for="password">Contraseña</label>
                 <input type="password" id="password" class="form-control" name="password" [(ngModel)]="password"
                   [type]="mostrarContrasenia ? 'text' : 'password'" autocomplete="password" aria-label="Contraseña"
@@ -47,11 +58,11 @@
                   href="javascript:void(0)">
                   <i class="pi pi-eye-slash" aria-label="Icono Contraseña oculta" title="ocultar / mostar"></i>
                 </a>
-              </div>
+              </div> -->
 
               <!-- Botón de enviar -->
-              <button type="submit" class="btn btn-primary btn-block mb-4 w-100 p-text-bold"
-                aria-label="Iniciar Sesión" [disabled]="formulario.invalid">
+              <button type="submit" class="btn btn-primary btn-block mb-4 w-100 p-text-bold" aria-label="Iniciar Sesión"
+                [disabled]="formulario.invalid">
                 Iniciar Sesión
               </button>
               <!-- Boton de redirección al registro -->
@@ -63,7 +74,7 @@
                   </small>
                 </div>
               </div>
-              
+
 
 
               <!-- Botones de contácto -->
@@ -90,3 +101,12 @@
     </div>
   </div>
 </section>
+
+<ng-template #mensajeErrorEmail>
+  <div *ngIf="formulario.controls['username'].errors && formulario.controls['username'].touched" class="text-danger">
+    <small>*Campo requerido</small>
+  </div>
+  <div *ngIf="formulario.controls['username'].errors?.['username'] && formulario.controls['username'].touched">
+    Formato de correo electrónico no válido
+  </div>
+</ng-template>

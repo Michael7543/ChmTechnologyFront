@@ -1,19 +1,11 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { FormGroup, NgForm } from '@angular/forms';
+import * as emailjs from 'emailjs-com';
 import Swal from 'sweetalert2';
 import { CategoriaModel } from '../../entities/Categoria';
 import { ImagenModel } from '../../entities/Imagen';
 import { ProductoModel, UpdateProductoDTO } from '../../entities/Producto';
 import { ESTADO } from '../../enums/Estado';
-import { CategoriaService } from '../../services/categoria.service';
-import { ImagenesService } from '../../services/imagenes.service';
-import { ProductosService } from '../../services/productos.service';
-import * as emailjs from 'emailjs-com';
-
 
 @Component({
   selector: 'app-pagina-inicio',
@@ -35,44 +27,22 @@ export class PaginaInicioComponent implements OnInit {
   displayModal: boolean = false;
   selectedProduct: ProductoModel | undefined;
   datos: any = {};
+  video: HTMLVideoElement | undefined;
 
   @ViewChild('contactForm') contactForm!: NgForm;
 
-  constructor(
-    private productoService: ProductosService,
-    private form: FormBuilder,
-    private imagenService: ImagenesService,
-    private categoriaService: CategoriaService,
-    private _sanitizer: DomSanitizer,
-    private router: Router,
-    private http: HttpClient
+  constructor() {}
 
-  ) {
-    {
-      this.ProductosForm = this.form.group({
-        nombre: ['', Validators.required],
-        descripcion: ['', Validators.required],
-        marca: ['', Validators.required],
-        precio: [0, Validators.required],
-        stock: [0, Validators.required],
-        categoria: ['', Validators.required],
-        estado: ['', Validators.required],
-        file: [''],
-      });
-    }
-    
-  }
-
-  ngOnInit(): void {
-    this.getProducto();
-    this.getCategoria();
-    this.getImagenes();
-  }
+  ngOnInit(): void {}
 
   enviarDatos() {
     // Verifica que todos los campos necesarios estén presentes
-    if (this.datos.nombre && this.datos.numero && this.datos.correo && this.datos.mensaje) {
-  
+    if (
+      this.datos.nombre &&
+      this.datos.numero &&
+      this.datos.correo &&
+      this.datos.mensaje
+    ) {
       // Configura los datos que se enviarán a través de EmailJS
       const emailjsData = {
         to_name: this.datos.nombre,
@@ -80,59 +50,53 @@ export class PaginaInicioComponent implements OnInit {
         to_email: this.datos.correo,
         message: this.datos.mensaje,
       };
-      
+
       console.log(emailjsData); // Verifica si los datos del correo electrónico son correctos
-      
-      emailjs.send('service_6bq6ajp', 'template_8oq30kh', emailjsData, 'vGg3XGGDDJzrRQEvg')
+
+      emailjs
+        .send(
+          'service_6bq6ajp',
+          'template_8oq30kh',
+          emailjsData,
+          'vGg3XGGDDJzrRQEvg'
+        )
         .then((response) => {
           console.log('Correo enviado con éxito:', response);
-  
+
           // Muestra un SweetAlert de éxito
           Swal.fire({
             icon: 'success',
             title: '¡Envío exitoso!',
             text: 'Tu mensaje ha sido enviado con éxito.',
           });
-  
+
           // Limpia el formulario
           this.datos = { nombre: '', numero: '', correo: '', mensaje: '' };
-  
+
           // Puedes mostrar un mensaje de éxito o redirigir a otra página aquí
         })
         .catch((error) => {
           console.error('Error al enviar correo:', error);
-  
+
           // Muestra un SweetAlert de error
           Swal.fire({
             icon: 'error',
             title: 'Error al enviar el correo',
             text: 'Hubo un problema al enviar el correo. Por favor, inténtalo de nuevo.',
           });
-  
+
           // Puedes manejar errores y mostrar un mensaje de error al usuario
         });
     }
   }
-  
-  // verMas(categoria: CategoriaModel) {
-  //   console.log('Categoría seleccionada:', categoria);
-  
-  //   // Verifica que el nombre de la categoría no esté en blanco
-  //   if (categoria.nombre.trim() !== 'productos') {
-  //     // Asegúrate de que 'categoria.nombre' sea el valor adecuado para tu ruta
-  //     this.router.navigate(['/', categoria.nombre.toLowerCase()]);
-  //   } else {
-  //     console.warn('Nombre de categoría en blanco. No se realizará la navegación.');
-  //   }
-  // }
-  
-  
+
   enviarMensaje() {
     // Obtener los valores del formulario
     const nombre = (<HTMLInputElement>document.getElementById('nombre')).value;
     const correo = (<HTMLInputElement>document.getElementById('correo')).value;
     const numero = (<HTMLInputElement>document.getElementById('numero')).value;
-    const sugerencia = (<HTMLInputElement>document.getElementById('sugerencia')).value;
+    const sugerencia = (<HTMLInputElement>document.getElementById('sugerencia'))
+      .value;
 
     // Formar el mensaje de WhatsApp con saltos de línea
     const mensajeAdicional = 'Hola, quiero que me contacten:';
@@ -153,178 +117,11 @@ export class PaginaInicioComponent implements OnInit {
 
     // Limpiar el formulario
     this.contactForm.reset();
-  
   }
-
-  
 
   openModal(producto: ProductoModel): void {
     this.selectedProduct = producto;
     this.displayModal = true;
-  }
-
-  // showDialog(producto: ProductoModel) {
-  //   this.selectedProduct = producto;
-  //   // Abre el modal manualmente
-  //   const modal = document.getElementById('productosModal');
-  //   modal?.classList.add('show');
-  //   modal?.setAttribute('style', 'display: block; background: rgba(0, 0, 0, 0.5);');
-  // }
-
-  // hideDialog() {
-  //   this.selectedProduct = undefined;
-  //   // Cierra el modal manualmente
-  //   const modal = document.getElementById('productosModal');
-  //   modal?.classList.remove('show');
-  //   modal?.removeAttribute('style');
-  // }
-
-  async getProducto() {
-    try {
-      const data = await firstValueFrom(this.productoService.getProductos());
-      this.listadoproductos = data;
-      this.loading = false;
-      console.log('Productos:', this.listadoproductos);
-    } catch (error) {
-      console.error('Error al obtener productos:', error);
-    }
-  }
-
-  trackByImagen(index: number, imagen: any): number {
-    return imagen.id;
-  }
-
-  async getImagenes() {
-    try {
-      const data = await firstValueFrom(this.imagenService.getImagenes());
-      this.listadoimagenes = data;
-      this.loading = false;
-      console.log(this.listadoimagenes);
-    } catch (error) {
-      console.error('Error al obtener imágenes:', error);
-    }
-  }
-
-  async getCategoria() {
-    try {
-      const data = await firstValueFrom(this.categoriaService.getCategoria());
-      this.listadocategoria = data;
-      console.log(this.listadocategoria);
-    } catch (error) {
-      console.error('Error al obtener categorías:', error);
-    }
-  }
-
-  trackByCategoria(index: number, categoria: any): number {
-    return categoria.id;
-  }
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.ProductosForm.patchValue({ file });
-      this.ProductosForm.get('file')?.updateValueAndValidity();
-
-      // Vista previa de la imagen seleccionada
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.selectedFile = reader.result;
-      };
-    }
-  }
-  onFileChange(event: any): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    this.ProductosForm.patchValue({
-      file,
-    });
-  }
-
-  async agregarProductos() {
-    if (this.ProductosForm.valid) {
-      const formData = new FormData();
-
-      // Agregar los campos del formulario al FormData
-      Object.keys(this.ProductosForm.value).forEach((key) => {
-        formData.append(key, this.ProductosForm.get(key)?.value);
-      });
-
-      try {
-        // Enviar el FormData al servicio utilizando firstValueFrom
-        const response = await firstValueFrom(
-          this.productoService.crearProductos(formData)
-        );
-
-        console.log('Producto creado con éxito:', response);
-        this.getProducto();
-      } catch (error) {
-        console.error('Error al crear producto:', error);
-        // Maneja el error según tus necesidades
-      }
-    }
-  }
-
-  updateProducto(): void {
-    const id = this.selectProducto.id ?? 0;
-    const data = this.ProductosForm.value;
-    console.log('Datos a enviar para actualizar:', data);
-
-    this.productoService.updateProducto(id, data).subscribe(
-      (response) => {
-        console.log(response);
-        this.getProducto();
-        Swal.fire({
-          icon: 'success',
-          title: 'Producto actualizado',
-          text: 'El producto se ha actualizado correctamente.',
-        });
-        this.ProductosForm.reset();
-      },
-      (error) => {
-        console.error('Error al actualizar producto:', error);
-        // Manejar el error según tus necesidades
-      }
-    );
-  }
-
-  editProducto(lista: any) {
-    console.log('Datos recibidos para editar:', lista);
-    this.selectProducto = lista;
-
-    this.ProductosForm.patchValue({
-      nombre: lista.nombre,
-      descripcion: lista.descripcion,
-      marca: lista.marca,
-      stock: lista.stock,
-      precio: lista.precio,
-      categoria: lista.categoria.nombre,
-      file: lista.file,
-      estado: lista.estado,
-    });
-  }
-
-  eliminarProducto(id: number): void {
-    Swal.fire({
-      title: '¿Está seguro?',
-      text: 'No podrá revertir esta acción',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.productoService.eliminarProductos(id).subscribe(
-          () => {
-            Swal.fire('Eliminado', 'El producto ha sido eliminado', 'success');
-            this.getProducto(); // Vuelve a cargar la lista después de la eliminación
-          },
-          (error) => {
-            console.error('Error al eliminar producto:', error);
-            // Maneja el error según tus necesidades
-          }
-        );
-      }
-    });
   }
 
   getEventValue(event: any): string {

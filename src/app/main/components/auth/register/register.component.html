@@ -30,7 +30,7 @@
               <div class="form-outline mb-4">
                 <h1 class="text-center fw-bold ls-tight">Registrarse</h1>
               </div>
-              <div class="row input-mod">
+              <div class="row formgrid grid">
                 <!-- Nombre input -->
                 <div class="col-md-6 form-outline mb-4">
                   <label for="" class="form-label p-text-bold">Nombre</label>
@@ -47,20 +47,20 @@
                 </div>
               </div>
               <!-- Email input -->
-              <div class="form-outline mb-4 input-mod">
+              <div class="form-outline mb-2 input-mod">
                 <label for="email" class="form-label p-text-bold">Correo Electrónico</label>
                 <input type="email" id="email" class="form-control" formControlName="email" name="email"
-                  title="Ingrese su correo electrónico" required>
+                  title="Ingrese su correo electrónico" pattern="[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
                 <ng-container *ngTemplateOutlet="mensajeErrorEmail"></ng-container>
               </div>
               <!-- Username input -->
-              <div class="form-outline mb-4 input-mod">
+              <div class="form-outline mb-2 input-mod">
                 <label class="form-label p-text-bold" for="username">Nombre de usuario</label>
                 <input type="text" id="username" autocomplete="username" class="form-control" formControlName="username"
                   name="username" title="Ingrese su nombre de usuario" required />
                 <ng-container *ngTemplateOutlet="mensajeErrorUsername"></ng-container>
               </div>
-              <div class="row input-mod">
+              <div class="row formgrid grid">
                 <!-- telefono input -->
                 <div class="col-md-6 form-outline mb-4">
                   <label for="telefono" class="form-label p-text-bold">Teléfono</label>
@@ -77,8 +77,18 @@
                   <ng-container *ngTemplateOutlet="mensajeErrorDireccion"></ng-container>
                 </div>
               </div>
+              <!-- Password input -->
+              <div class="mb-4 w-100">
+                <label class="form-label p-text-bold w-100" for="password">Contraseña</label>
+                <p-password formControlName="password" name="password" [toggleMask]="true"
+                  [promptLabel]="passwordPromptLabel" [weakLabel]="weakLabel" [mediumLabel]="mediumLabel"
+                  [strongLabel]="strongLabel" [inputStyle]="{ 'width': '100%'}" [style]="{'width':'100%'}"
+                  class="text-base text-color surface-overlay border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-100"
+                  required>
+                </p-password>
+              </div>
 
-              <div class="form-outline mb-4 position-relative">
+              <!-- <div class="form-outline mb-4 position-relative">
                 <label class="form-label p-text-bold" for="password">Contraseña</label>
                 <input type="password" id="password" class="form-control" name="password" formControlName="password"
                   [type]="mostrarContrasenia ? 'text' : 'password'" autocomplete="password" aria-label="Contraseña"
@@ -88,7 +98,7 @@
                   href="javascript:void(0)">
                   <i class="pi pi-eye-slash" aria-label="Icono Contraseña oculta" title="ocultar / mostar"></i>
                 </a>
-              </div>
+              </div> -->
 
               <!-- Botón de enviar -->
               <button type="submit" [disabled]="FormUsuario.invalid"
@@ -126,40 +136,40 @@
 <ng-template #mensajeErrorNombre>
   <div class="text-danger"
     *ngIf="FormUsuario.get('nombre')?.hasError('required') && FormUsuario.get('nombre')?.touched">
-    <small>Este campo es <strong>obligatorio</strong></small>
+    <small>*Campo <strong>obligatorio</strong></small>
   </div>
 </ng-template>
 
 <ng-template #mensajeErrorApellido>
   <div class="text-danger"
     *ngIf="FormUsuario.get('apellido')?.hasError('required') && FormUsuario.get('apellido')?.touched">
-    <small>Este campo es <strong>obligatorio</strong></small>
+    <small>*Campo <strong>obligatorio</strong></small>
   </div>
 </ng-template>
 
 <ng-template #mensajeErrorUsername>
   <div class="text-danger"
     *ngIf="FormUsuario.get('username')?.hasError('required') && FormUsuario.get('username')?.touched">
-    <small>Este campo es <strong>obligatorio</strong></small>
+    <small>*Campo <strong>obligatorio</strong></small>
   </div>
 </ng-template>
 
 <ng-template #mensajeErrorTelefono>
   <div class="text-danger"
     *ngIf="FormUsuario.get('telefono')?.hasError('required') && FormUsuario.get('telefono')?.touched">
-    <small>Este campo es <strong>obligatorio</strong></small>
+    <small>*Campo <strong>obligatorio</strong></small>
   </div>
 </ng-template>
 
 <ng-template #mensajeErrorDireccion>
   <div class="text-danger"
     *ngIf="FormUsuario.get('direccion')?.hasError('required') && FormUsuario.get('direccion')?.touched">
-    <small>Este campo es <strong>obligatorio</strong></small>
+    <small>*Campo <strong>obligatorio</strong></small>
   </div>
 </ng-template>
 
 <ng-template #mensajeErrorEmail>
   <div class="text-danger" *ngIf="FormUsuario.get('email')?.hasError('required') && FormUsuario.get('email')?.touched">
-    <small>Este campo es <strong>obligatorio</strong></small>
+    <small>*Campo <strong>obligatorio</strong></small>
   </div>
 </ng-template>

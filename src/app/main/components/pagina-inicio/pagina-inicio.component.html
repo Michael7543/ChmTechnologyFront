@@ -1,98 +1,74 @@
 <app-header></app-header>
-
-
+<!-- Sección video -->
 <div class="container-fluid container-video">
   <div class="video-container">
-    <video muted loop autoplay playsinline>
-      <source src="/assets/chm2.mp4" type="video/mp4">
-      Tu navegador no soporta el tag de video.
+    <video id="myVideo" autoplay loop muted playsinline src="../../../../assets/chm2.mp4" type="video/mp4"
+      preload="metadata" loading="lazy">
     </video>
   </div>
 </div>
 
 <br>
-
-
-<!-- CARD CON DATOS CATEGORIA -->
-<!-- <div *ngFor="let categoria of listadocategoria" class="d-flex" (click)="verMas(categoria)">
-  <div class="card shadow rounded-3" style="width: 22rem; padding: 1rem;">
-  
-    <div class="card-body">
-      <h5 class="card-title">{{ categoria.nombre }}</h5>
-      <p class="card-text">{{ categoria.descripcion }}</p>
-      <p class="card-text">{{ categoria.estado }}</p>
-    
-      <button type="button" class="btn btn-primary" (click)="verMas(categoria)">
-        Ver Más
-      </button>
+<!-- Sección acerca de-->
+<section class="container-equipo container-fluid p-4 h-100">
+  <h1 class="text-center">SOLUCIONES TECNOLÓGICAS</h1>
+  <div class="row align-items-center justify-content-center">
+    <div class="container-img-about col-md-6 d-flex align-items-center justify-content-center p-4">
+      <img src="/assets/equipo-soft.png" alt="Imagen de Acerca de" class="img-fluid"
+        style="max-width:50%; filter: drop-shadow(5px 5px 9px rgba(255, 100, 247, 0.863));">
     </div>
-  </div>
-</div> -->
-<h1 class="text-center mb-5">CATALOGOS</h1>
-<div class="d-flex align-items-center justify-content-center h-100">
-  <div class="d-flex gap-4">
-    <div class="card">
-      <img src="/assets/productos.png" alt="Imagen de Producto" class="card-img-top w-100" style="height: 200px; object-fit: cover;">
-      <div class="card-body">
-        <h5 class="card-title">Productos</h5>
-        <a [routerLink]="['/productos']" class="btn btn-primary">Ir a Productos</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="/assets/servicios.jpeg" alt="Imagen de Servicio" class="card-img-top w-100" style="height: 200px; object-fit: cover;">
-      <div class="card-body">
-        <h5 class="card-title">Servicios</h5>
-        <a [routerLink]="['/servicios']" class="btn btn-primary">Ir a Servicios</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<br>
-<br>
-<!-- contacto-formulario.component.html -->
-<!-- <div class="container mt-5 formulario-con-bordes-negros text-center">
-  <h1 class="mb-4">Contacto</h1>
-
-  <form (ngSubmit)="enviarMensaje()" #contactForm="ngForm">
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label for="nombre" class="form-label">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" ngModel class="form-control border-black" required>
-      </div>
-      <div class="col-md-6">
-        <label for="correo" class="form-label">Correo Electrónico:</label>
-        <input type="email" id="correo" name="correo" ngModel class="form-control border-black" required>
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label for="numero" class="form-label">Número de Teléfono:</label>
-        <input type="tel" id="numero" name="numero" ngModel class="form-control border-black" required>
-      </div>
-      <div class="col-md-6">
-        <label for="sugerencia" class="form-label">Sugerencia:</label>
-        <textarea id="sugerencia" name="sugerencia" ngModel class="form-control border-black" rows="4" required></textarea>
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-md-12">
-        <button type="submit" class="btn btn-primary">Enviar por WhatsApp</button>
-      </div>
-    </div>
-  </form>
-</div> -->
-<!-- app.component.html -->
-<div class="container mt-5">
-  <div class="row justify-content-center">
     <div class="col-md-6">
-      <form (ngSubmit)="enviarDatos()" #formulario="ngForm" class="p-4 rounded" style="background-color: #00406E; position: relative; height: 420px;">
+      <div class="d-flex flex-column align-items-center justify-content-center p-4">
+        <p class="text-justify mb-4">En "CHM TECHNOLOGY", nos dedicamos a proporcionar soluciones tecnológicas avanzadas
+          que impulsan la eficiencia y el rendimiento. Ofrecemos una amplia gama de productos y servicios diseñados para
+          abordar los desafíos contemporáneos y mejorar la competitividad de nuestros clientes.</p>
+        <p class="text-justify mb-4">Nuestra misión es implementar tecnología de vanguardia para resolver problemas
+          complejos y mejorar los procesos empresariales. Nos comprometemos a brindar soluciones innovadoras y de alta
+          calidad que impulsen el éxito de nuestros clientes en la era digital.</p>
+        <p class="text-end w-100 fst-italic">- CHM TECHNOLOGY</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<br>
+<!-- Sección cards catálogos -->
+<section class="section-catalogos p-4 d-flex flex-column align-items-center justify-content-center">
+  <h1 class="text-center">CATÁLOGOS</h1>
+  <div class="contenedor-Info h-100 w-100">
+    <div class="d-flex flex-wrap gap-4">
+      <div class="card border-0 shadow rounded-3">
+        <img src="/assets/productos.png" alt="Imagen de Producto" class="card-img-top w-100"
+          style="height: 200px; object-fit: cover;">
+        <div class="card-body shadow rounded-3">
+          <h5 class="card-title text-center">Productos</h5>
+          <a [routerLink]="['/productos']" class="btn btn-primary w-100">Ir a Productos</a>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow rounded-3">
+        <img src="/assets/servicios.jpeg" alt="Imagen de Servicio" class="card-img-top w-100"
+          style="height: 200px; object-fit: cover;">
+        <div class="card-body shadow rounded-3">
+          <h5 class="card-title text-center">Servicios</h5>
+          <a [routerLink]="['/servicios']" class="btn btn-primary w-100">Ir a Servicios</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Sección formulario de información -->
+
+<div class="container-fluid h-100 p-4 d-flex align-items-center justify-content-center">
+  <div class="container-contact row justify-content-center align-items-center w-100">
+    <div class="col-md-6 p-2">
+      <form (ngSubmit)="enviarDatos()" #formulario="ngForm" class="p-4 rounded"
+        style="background-color: #00406E; position: relative; height: 420px;">
 
         <!-- Título dentro del formulario -->
-        <h2 class="text-center text-white mb-4">Formulario de Contacto</h2>
+        <h2 class="text-center text-white mb-3">Formulario de Contacto</h2>
 
         <label for="nombre" class="text-white">Nombre:</label>
         <input type="text" id="nombre" name="nombre" [(ngModel)]="datos.nombre" class="form-control" required>
@@ -104,20 +80,23 @@
         <input type="email" id="correo" name="correo" [(ngModel)]="datos.correo" class="form-control" required>
 
         <label for="mensaje" class="text-white">Asunto:</label>
-        <textarea id="mensaje" name="mensaje" [(ngModel)]="datos.mensaje" class="form-control" required></textarea>
+        <textarea id="mensaje" name="mensaje" [(ngModel)]="datos.mensaje" style="resize: none;" class="form-control"
+          required></textarea>
 
         <button type="submit" class="btn btn-light mt-3">Enviar</button>
       </form>
     </div>
-    <div class="col-md-6">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15959.071166384721!2d-78.56137532611902!3d-0.2883571953408768!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d598a43ac62447%3A0x44ee54b1710617eb!2sLas%20Cuadras%2C%20Quito!5e0!3m2!1ses!2sec!4v1705788464279!5m2!1ses!2sec"
-        width="600" height="420" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div class="col-md-6 p-2">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15959.071166384721!2d-78.56137532611902!3d-0.2883571953408768!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d598a43ac62447%3A0x44ee54b1710617eb!2sLas%20Cuadras%2C%20Quito!5e0!3m2!1ses!2sec!4v1705788464279!5m2!1ses!2sec"
+        width="600" height="420" style="border:0;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
   </div>
 </div>
 
-
+<!-- Botón de whatsApp -->
 <app-Whatsapp class="bg-danger" style="position: fixed; bottom: 70px; right: 10px;"></app-Whatsapp>
 
-
+<!-- Sección Footer -->
 <app-footer></app-footer>

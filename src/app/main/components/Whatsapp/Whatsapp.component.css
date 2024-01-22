@@ -1,0 +1,38 @@
+.whatsapp-container {
+    position: relative;
+    display : inline-block;
+}
+
+.whatsapp-icon {
+    position  : absolute;
+    right     : 0;
+    z-index   : 4;
+    transition: transform 0.2s ease-in-out;
+    animation : heartbeat 1s infinite;
+}
+
+.contact-msg {
+    position        : absolute;
+    top             : -50px;
+    right           : 0;
+    background-color: #ffffff;
+    padding         : 5px;
+    border-radius   : 5px;
+    box-shadow      : 0 0 10px rgba(0, 0, 0, 0.1);
+    transition      : opacity 0.2s ease-in-out;
+    animation       : heartbeat 1s infinite;
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

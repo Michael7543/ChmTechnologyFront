@@ -17,9 +17,11 @@ import Swal from 'sweetalert2';
 })
 export class RegisterComponent implements OnInit {
   FormUsuario: FormGroup;
-  //username: string = '';
-  //password: string = '';
   mostrarContrasenia: boolean = false;
+  passwordPromptLabel = 'Ingrese su contraseña';
+  weakLabel = 'Débil';
+  mediumLabel = 'Media';
+  strongLabel = 'Fuerte';
 
   constructor(
     private form: FormBuilder,
@@ -75,12 +77,11 @@ export class RegisterComponent implements OnInit {
     );
   } */
 
-
   agregarUsuario() {
     let usuario: UsuarioModel = this.FormUsuario.value;
-  
+
     console.log('Datos del formulario:', usuario);
-  
+
     this.usuarioService.crearUsuario(usuario).subscribe({
       next: (response: any) => {
         // Muestra el token en la consola para depuración
@@ -89,14 +90,17 @@ export class RegisterComponent implements OnInit {
           title: 'Usuario Registrado',
           text: 'El usuario se ha registrado correctamente.',
         });
-  
+
         // Redirigir a la ruta deseada
         this.router.navigate(['/auth/login']);
       },
       error: (error: any) => {
         if (error.status === 400 && error.error && error.error.message) {
           // Filtra la cadena "BAD_REQUEST :: " del mensaje de error
-          const errorMessage = error.error.message.replace(/BAD_REQUEST :: /i, '');
+          const errorMessage = error.error.message.replace(
+            /BAD_REQUEST :: /i,
+            ''
+          );
           // Muestra el mensaje de error específico de la respuesta HTTP
           this.showCustomErrorAlert(errorMessage);
         } else {
@@ -106,8 +110,6 @@ export class RegisterComponent implements OnInit {
       },
     });
   }
-  
-
 
   showServerErrorAlert() {
     Swal.fire({

@@ -9,13 +9,17 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   UsuarioForm: FormGroup = new FormGroup({});
   username: string = '';
   password: string = '';
   mostrarContrasenia: boolean = false;
+  passwordPromptLabel = 'Ingrese su contraseña';
+  weakLabel = 'Débil';
+  mediumLabel = 'Media';
+  strongLabel = 'Fuerte';
 
   constructor(
     private readonly router: Router,
@@ -74,12 +78,12 @@ export class LoginComponent implements OnInit {
       });
       return;
     }
-  
+
     const observer: Observer<any> = {
       next: (response: any) => {
         if (response && response.accessToken) {
           localStorage.setItem('accessToken', response.accessToken);
-  
+
           Swal.fire({
             icon: 'success',
             title: 'Usuario logueado',
@@ -88,11 +92,14 @@ export class LoginComponent implements OnInit {
             timerProgressBar: true,
             showConfirmButton: false,
           });
-  
+
           const userRole = this.extractUserRole(response.accessToken);
           this.redirectBasedOnUserRole(userRole);
         } else {
-          console.error('La respuesta del servidor no contiene un token:', response);
+          console.error(
+            'La respuesta del servidor no contiene un token:',
+            response
+          );
           this.showInvalidCredentialsAlert();
         }
       },
@@ -102,11 +109,37 @@ export class LoginComponent implements OnInit {
       },
       complete: () => {},
     };
-  
-    this.loginService.login(this.username, this.password).subscribe(observer);
+
+    setTimeout(() => {
+      this.loginService.login(this.username, this.password).subscribe(observer);
+    }, 200);
   }
-  
+
   private extractUserRole(accessToken: string): string {
+    try {
+      const decodedToken: any = jwtDecode(accessToken);
+      //console.log(decodedToken);
+
+      // Verifica si el campo "role" existe y es un array
+      if (decodedToken.role && Array.isArray(decodedToken.role)) {
+        const firstRole = decodedToken.role[0];
+        return firstRole ? firstRole.name : '';
+      } else if (decodedToken.role && typeof decodedToken.role === 'string') {
+        // Si "role" es una cadena, devuélvela directamente
+        return decodedToken.role;
+      } else {
+        console.error(
+          'El campo "role" no es un array o una cadena en el token.'
+        );
+        return '';
+      }
+    } catch (error) {
+      console.error('Error al extraer el rol del token', error);
+      return '';
+    }
+  }
+
+  /* private extractUserRole(accessToken: string): string {
     try {
       const decodedToken: any = jwtDecode(accessToken); // Asegúrate de que estás utilizando jwt_decode
       console.log(decodedToken);
@@ -116,9 +149,26 @@ export class LoginComponent implements OnInit {
       console.error('Error al extraer el rol del token', error);
       return '';
     }
-  }
-  
+  } */
+
   private redirectBasedOnUserRole(userRole: string): void {
+    // Objeto de mapeo de roles a rutas
+    const roleToRouteMap: { [key: string]: string } = {
+      ADMIN: '/home/administracion/usuario',
+      BASIC: '/inicio',
+    };
+
+    // Ruta por defecto en caso de que el rol no coincida
+    const defaultRoute = '/not-found';
+
+    // Obtén la ruta correspondiente al rol del usuario o la ruta por defecto
+    const targetRoute = roleToRouteMap[userRole] || defaultRoute;
+
+    // Redirige a la ruta determinada
+    this.router.navigate([targetRoute]);
+  }
+
+  /*   private redirectBasedOnUserRole(userRole: string): void {
     switch (userRole) {
       case 'ADMIN':
         this.router.navigate(['/home/administracion/usuario']);
@@ -132,6 +182,7 @@ export class LoginComponent implements OnInit {
         break;
     }
   }
+ */
 
   showInvalidCredentialsAlert() {
     Swal.fire({

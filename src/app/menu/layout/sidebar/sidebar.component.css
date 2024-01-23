@@ -36,7 +36,7 @@
 }
 
 .nav-list-open .nav-list-item:hover {
-  background-color: #B0D9FF;
+  background-color:#eff0f3;
   color           : #000000;
   border-radius   : 10px;
   transition      : 0.5s;

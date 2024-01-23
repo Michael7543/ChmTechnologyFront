@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 export class UsuarioComponent implements OnInit {
 
   UsuarioForm: FormGroup;
+  UsuarioUpdateForm: FormGroup;
   listadousuario: UsuarioModel[] = []; //poner
   selectUsuario:UpdateUsuarioDTO={}; //
   listadoroles: RolesModel[]=[];
@@ -33,11 +34,22 @@ export class UsuarioComponent implements OnInit {
         telefono: ['', Validators.required],
         email: ['', [Validators.required, Validators.email, this.validarFormatoCorreo]],
         username: ['', Validators.required],
-       // role: ['', ],
+
         
       })
     }
-
+    {
+      this.UsuarioUpdateForm= this.form.group({
+        
+        nombre: ['', Validators.required],
+        apellido: ['', Validators.required],
+        direccion: ['', Validators.required],
+        telefono: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email, this.validarFormatoCorreo]],
+        username: ['', Validators.required],
+        roleName: ['', ],
+      })
+    }
 
   }
 
@@ -73,18 +85,16 @@ export class UsuarioComponent implements OnInit {
     editusuario(lista:any){
       console.log('Datos recibidos para editar:', lista);
       this.selectUsuario = lista;
-      
-      this.UsuarioForm.patchValue({
+      const roleName = lista.role && lista.role.length > 0 ? lista.role[0].name : '';
+
+      this.UsuarioUpdateForm.patchValue({
         nombre: lista.nombre,
         apellido: lista.apellido,
         telefono: lista.telefono,
-        password: lista.password,
         email: lista.email,
         username: lista.username,
         direccion: lista.direccion,
-        role: lista.role
-        
-
+        roleName: roleName,
       });
       
     }
@@ -118,20 +128,21 @@ export class UsuarioComponent implements OnInit {
       );
     }
 
-    updateUsuario(): void { 
+    updateUsuario(): any { 
       const id = this.selectUsuario.id ?? 0; 
-      const data = this.UsuarioForm.value;
+      const data = this.UsuarioUpdateForm.value;
       console.log('Datos a enviar para actualizar:', data); // Agregar esta línea
       //data.role.id = parseInt(data.role.id.toString());
       this.usuarioService.updateUsuario(id, data).subscribe((response) => {
         console.log(response);
-        this.getUser();
+        const usarioUpdate = this.getUser();
+        console.log(usarioUpdate);
         Swal.fire({
           icon: 'success',
           title: 'Usuario actualizado',
           text: 'El usuario se ha actualizado correctamente.',
         });
-        this.UsuarioForm.reset();
+        this.UsuarioUpdateForm.reset();
         this.selectUsuario = {};
       });
     }

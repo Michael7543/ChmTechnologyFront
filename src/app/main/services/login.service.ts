@@ -58,6 +58,7 @@ export class LoginService {
       if (encryptedPassword && encryptionKey) {
         // Utiliza la clave aleatoria para desencriptar
         const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, encryptionKey).toString(CryptoJS.enc.Utf8);
+        console.log('contraseña',decryptedPassword);
         return decryptedPassword;
       }
     

@@ -42,8 +42,8 @@ export class UsuarioService {
     return this.http.delete(`${this.API_URL + this.endpointuser}/delete/${id}`);
   }
 
-  updateUsuario(id: number, report: UpdateUsuarioDTO): Observable<any>{
-    return this.http.put(`${this.API_URL + this.endpointuser}/edit/${id}`, report )
+  updateUsuario(id: number, report: UpdateUsuarioDTO): Observable<UpdateUsuarioDTO>{
+    return this.http.put<UpdateUsuarioDTO>(`${this.API_URL + this.endpointuser}/edit/${id}`, report )
   }
   
   

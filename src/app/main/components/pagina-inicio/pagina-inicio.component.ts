@@ -55,8 +55,8 @@ export class PaginaInicioComponent implements OnInit {
 
       emailjs
         .send(
-          'service_6bq6ajp',
-          'template_8oq30kh',
+          'service_v282uft',
+          'template_jpuw94c',
           emailjsData,
           'vGg3XGGDDJzrRQEvg'
         )

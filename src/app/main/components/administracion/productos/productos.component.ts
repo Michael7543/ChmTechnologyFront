@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { CategoriaModel } from 'src/app/main/entities/Categoria';
-import { ImagenModel } from 'src/app/main/entities/Imagen';
+import { ImagenModel, UpdateImagenDTO } from 'src/app/main/entities/Imagen';
 import {
   ProductoModel,
   UpdateProductoDTO,
@@ -25,12 +25,14 @@ import Swal from 'sweetalert2';
 })
 export class ProductosComponent implements OnInit {
   ProductosForm: FormGroup = new FormGroup({});
+  ImagenForm: FormGroup = new FormGroup({});
   isUploading = false;
   selectedFile: string | ArrayBuffer | null = null;
   listadoproductos: ProductoModel[] = [];
   listadoimagenes: ImagenModel[] = [];
   listadocategoria: CategoriaModel[] = [];
   selectProducto: UpdateProductoDTO = {};
+  selectImagen: UpdateImagenDTO = {};
   estados = Object.values(ESTADO);
   loading: boolean = true;
 
@@ -52,6 +54,12 @@ export class ProductosComponent implements OnInit {
         codigo: ['', Validators.required],
         modelo: ['', Validators.required],
         file: ['']
+      });
+    }
+    {
+      this.ImagenForm = this.form.group({
+        //filename: [''],
+        file: [null]
       });
     }
   }
@@ -76,6 +84,8 @@ export class ProductosComponent implements OnInit {
   trackByImagen(index: number, imagen: any): number {
     return imagen.id;
   }
+
+
 
   async getImagenes() {
     try {
@@ -122,8 +132,22 @@ export class ProductosComponent implements OnInit {
       file: lista.file
     });
   }
-  
 
+  editImagen(listaimg: any) {
+    console.log('Datos recibidos de imagen para editar:', listaimg);
+    this.selectImagen = listaimg;
+    const filename = listaimg.imagenes && listaimg.imagenes.length > 0 ? listaimg.imagenes[0].filename : '';
+  
+    console.log('Filename capturado:', filename); // Agregar este console.log
+  
+   
+      this.ImagenForm.patchValue({
+        filename: filename,
+      // file: listaimg.file
+      });
+    
+    console.log('datos del filename',filename)
+  }
   saveProductos() {
     const id = this.selectProducto.id ?? 0;
     console.log('Valor de la ID en saveCategoria:', id);
@@ -215,6 +239,46 @@ export class ProductosComponent implements OnInit {
       // Manejar el error según tus necesidades
     }
   }
+
+  async updateImagenes(): Promise<void> {
+    
+  
+      const filename = Array.isArray(this.selectProducto.imagenes) ? this.selectProducto.imagenes[0]?.filename ?? '' : '';
+        
+      const formData = new FormData();
+      Object.keys(this.ProductosForm.value).forEach((key) => {
+        formData.append(key, this.ProductosForm.get(key)?.value);
+      });
+  
+      try {
+        console.log('filename a actualizar:', filename);
+        console.log('Datos a enviar para actualizar:', formData);
+  
+        const response = await firstValueFrom(
+          this.imagenService.updateImagenes(filename, formData)
+        );
+  
+        console.log(response);
+        this.getProducto();
+        
+  
+        Swal.fire({
+          icon: 'success',
+          title: 'Imagen actualizada',
+          text: 'La imagen se ha actualizado correctamente.',
+        });
+  
+        this.ProductosForm.reset();
+        this.selectProducto = {};
+      } catch (error) {
+        console.error('Error al actualizar imagen:', error);
+        // Manejar el error según tus necesidades
+      }
+    
+  }
+
+  
+  
   
   eliminarProducto(id: number): void {
     Swal.fire({

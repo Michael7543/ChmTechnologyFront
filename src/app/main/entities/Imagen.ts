@@ -1,8 +1,8 @@
 export interface ImagenModel {
-    id:number;
+    id?:number;
     filename:string;
-    file_path:string;
-    publicUrl:string;
+    file_path?:string;
+    publicUrl?:string;
  
  }
  export interface UpdateImagenDTO extends Partial<ImagenModel> {

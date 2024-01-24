@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import Swal from 'sweetalert2';
-import { CarritoService } from '../../services/carrito.service';
-import { CarritoModel } from '../../entities/Carrito';
 import { firstValueFrom } from 'rxjs';
+import Swal from 'sweetalert2';
+import { CarritoModel } from '../../entities/Carrito';
 import { ImagenModel } from '../../entities/Imagen';
+import { CarritoService } from '../../services/carrito.service';
+import { CatidadRegistrosService } from '../../services/catidadRegistros.service';
 import { ImagenesService } from '../../services/imagenes.service';
 import { LoginService } from '../../services/login.service';
 
@@ -17,11 +18,13 @@ export class CarritoUsuarioComponent implements OnInit {
   listadocarrito: CarritoModel[] = [];
   loading: boolean = true;
   listadoimagenes: ImagenModel[] = [];
+  cantidadRegistros: number = 0;
 
   constructor(
     private carritoService: CarritoService,
     private authservice: LoginService,
-    private imagenService: ImagenesService
+    private imagenService: ImagenesService,
+    private catidadRegistrosService: CatidadRegistrosService
   ) {}
 
   ngOnInit() {
@@ -30,8 +33,6 @@ export class CarritoUsuarioComponent implements OnInit {
 
   modificarCantidad(carritoItem: any, cantidad: number) {
     carritoItem.cantidad = cantidad;
-
-    // Puedes agregar lógica adicional aquí si es necesario
   }
 
   hayProductosServiciosEnCarrito(carrito: CarritoModel[]): boolean {
@@ -59,7 +60,7 @@ export class CarritoUsuarioComponent implements OnInit {
       productosServicios
         .map((item) => `${item.nombre} - Cantidad: ${item.cantidad}`)
         .join('\n') +
-        `\n\nMonto a cotizar: $${montoCotizar}`;
+      `\n\nMonto a cotizar: $${montoCotizar}`;
 
     // Enviar el mensaje a WhatsApp (aquí puedes implementar la lógica para enviar a WhatsApp)
     this.enviarMensajeWhatsApp(mensajeWhatsApp);
@@ -80,28 +81,76 @@ export class CarritoUsuarioComponent implements OnInit {
 
   async getCarrito() {
     try {
-      const data = await firstValueFrom(this.carritoService.getCarrito());
-      this.listadocarrito = data;
-      this.loading = false;
-      console.log('Carrito antes del filtrado:', this.listadocarrito);
-
-      // Obtener el username desencriptado del localStorage
-      const username = this.authservice.getUsername();
-      console.log(username)
-      if (username) {
-        // Filtrar la lista de carrito por username
-        this.listadocarrito = this.listadocarrito.filter(
-          (item) => item.usuario && item.usuario.email === username
-        );
-
-        console.log('Carrito después del filtrado:', this.listadocarrito);
-      } else {
-        console.error('No se pudo obtener el username desencriptado.');
-      }
+      const data = await this.fetchCarritoData();
+      this.processCarritoData(data);
     } catch (error) {
-      console.error('Error al obtener carrito:', error);
+      this.handleError(error);
     }
   }
+
+  async fetchCarritoData() {
+    return await firstValueFrom(this.carritoService.getCarrito());
+  }
+
+  processCarritoData(data: any) {
+    this.listadocarrito = data;
+    this.loading = false;
+    console.log('Carrito antes del filtrado:', this.listadocarrito);
+
+    const username = this.authservice.getUsername();
+    console.log(username);
+
+    if (!username) {
+      this.handleError('No se pudo obtener el username desencriptado.');
+      return;
+    }
+
+    this.filterCarritoByUsername(username);
+  }
+
+  filterCarritoByUsername(username: any) {
+    this.listadocarrito = this.listadocarrito.filter(
+      (item) => item.usuario && item.usuario.email === username
+    );
+
+    console.log('Carrito después del filtrado:', this.listadocarrito);
+    const cantidadRegistros = this.listadocarrito.length;
+    this.catidadRegistrosService.actualizarCantidadRegistros(cantidadRegistros);
+  }
+
+  handleError(error: unknown) {
+    console.error('Error al obtener carrito:', error);
+  }
+
+  // async getCarrito() {
+  //   try {
+  //     const data = await firstValueFrom(this.carritoService.getCarrito());
+  //     this.listadocarrito = data;
+  //     this.loading = false;
+  //     console.log('Carrito antes del filtrado:', this.listadocarrito);
+
+  //     // Obtener el username desencriptado del localStorage
+  //     const username = this.authservice.getUsername();
+  //     console.log(username);
+  //     if (username) {
+  //       // Filtrar la lista de carrito por username
+  //       this.listadocarrito = this.listadocarrito.filter(
+  //         (item) => item.usuario && item.usuario.email === username
+  //       );
+
+  //       console.log('Carrito después del filtrado:', this.listadocarrito);
+  //       /* Emision de cantidad de registros en el carrito */
+  //       const cantidadRegistros = this.listadocarrito.length;
+  //       this.catidadRegistrosService.actualizarCantidadRegistros(
+  //         cantidadRegistros
+  //       );
+  //     } else {
+  //       console.error('No se pudo obtener el username desencriptado.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error al obtener carrito:', error);
+  //   }
+  // }
 
   async getImagenes() {
     try {

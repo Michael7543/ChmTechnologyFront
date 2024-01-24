@@ -61,7 +61,8 @@
           <li class="nav-item">
             <a class="nav-link mx-lg-2" aria-current="page" (click)="openCart()" routerLinkActive="active">
               <ng-container *ngIf="mostrarIcono; else textoCarrito">
-                <i class="bi bi-cart-plus-fill"></i>
+                <i class="bi bi-cart-plus-fill"  pBadge
+                  [value]="(cantidadRegistrosResividos$ | async)?.toString() ?? '0'"></i>
               </ng-container>
               <ng-template #textoCarrito>
                 Carrito
@@ -73,12 +74,34 @@
     </div>
 
     <!-- Agregamos la lógica de inicio de sesión aquí -->
-    <ng-container *ngIf="!isLoggedIn(); else loggedIn">
+    <!-- <ng-container *ngIf="!isLoggedIn(); else loggedIn">
       <a class="login-button rounded-4" routerLink="/auth/login">Iniciar Sesión</a>
     </ng-container>
     <ng-template #loggedIn>
       <a class="login-button rounded-4 cerrar" (click)="logout()">Cerrar Sesión</a>
+    </ng-template> -->
+
+    <!-- avatar del usuario -->
+    <ng-container *ngIf="isLoggedIn(); else loggedIn">
+      <div class="dropdown" style="border:none; outline: none;">
+        <button class="btn dropdown-toggle border-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <p-avatar icon="pi pi-user" styleClass="mr-2" [style]="{ 'background-color': '#00406E', color: '#ffffff' }">
+          </p-avatar>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="border:none; outline: none;">
+          <li><a class="dropdown-item" routerLink="/perfil/usuario">Perfil</a></li>
+          <li><a class="dropdown-item cerrar" (click)="logout()">Cerrar Sesión</a></li>
+        </ul>
+      </div>
+    </ng-container>
+
+    <ng-template #loggedIn>
+      <a class="login-button rounded-4" routerLink="/auth/login">Iniciar Sesión</a>
     </ng-template>
+
+
+
 
     <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
       aria-controls="offcanvasNavbar">

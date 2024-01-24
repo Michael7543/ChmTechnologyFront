@@ -3,27 +3,34 @@
 <br>
 
 <div class="container title-section">
-  <h1 class="title-section__main-heading text-center">QUÉ PIENSAN NUESTROS SAVIOS DE TRABAJAR EN "CHM TECHNOLOGY"</h1>
+  <h1 class="title-section__main-heading text-center">
+    ¡ADÉNTRATE EN EL MUNDO PROFESIONAL DE "CHM TECHNOLOGY" CON LAS VIVENCIAS DE NUESTROS EXPERTOS!</h1>
 </div>
 
 <br>
 
 <section class="container-equipo container-fluid p-4 h-100">
-  <h1 class="text-center">PLOTTERS</h1>
+  <h1 class="Title-work text-center">Experta en Help Desk </h1>
   <div class="row align-items-center justify-content-center">
     <div class="container-img-about col-md-6 d-flex align-items-center justify-content-center p-4">
-      <img src="/assets/equipo-soft.png" alt="Imagen de Acerca de" class="img-fluid"
-        style="max-width:50%; filter: drop-shadow(5px 5px 9px rgba(255, 100, 247, 0.863));">
+      <img src="../../../../assets/team3.png" alt="Imagen de Acerca de" class="img-fluid"
+        style="max-width:50%; filter: drop-shadow(5px 5px 9px blue);">
     </div>
     <div class="col-md-6">
       <div class="d-flex flex-column align-items-center justify-content-center p-4">
-        <p class="text-justify mb-4">En "CHM TECHNOLOGY", nos dedicamos a proporcionar soluciones tecnológicas avanzadas
-          que impulsan la eficiencia y el rendimiento. Ofrecemos una amplia gama de productos y servicios diseñados para
-          abordar los desafíos contemporáneos y mejorar la competitividad de nuestros clientes.</p>
-        <p class="text-justify mb-4">Nuestra misión es implementar tecnología de vanguardia para resolver problemas
-          complejos y mejorar los procesos empresariales. Nos comprometemos a brindar soluciones innovadoras y de alta
-          calidad que impulsen el éxito de nuestros clientes en la era digital.</p>
-        <p class="text-end w-100 fst-italic">- MIGUEL SERVANTES</p>
+        <p class="text-justify mb-4">En el corazón de nuestra dedicación al servicio al cliente se encuentra Milena
+          Garcia, nuestra experta líder en Help Desk. Con 9 años de experiencia en el sector, ha
+          demostrado ser un recurso invaluable para aquellos que buscan una asistencia técnica y atención al cliente
+          excepcionales.
+
+          La experiencia de Milena Garcia abarca desde la resolución rápida de problemas técnicos hasta la gestión
+          proactiva de consultas y necesidades.</p>
+        <p class="text-justify mb-4">Milena simplifica conceptos técnicos complejos, asegurando una comunicación clara y
+          comprensible para todos los usuarios. Va más allá de la resolución de problemas, identificando oportunidades
+          para mejorar constantemente nuestros servicios. Su enfoque proactivo se traduce en soluciones personalizadas y
+          prácticas que aumentan la eficiencia y la satisfacción del usuario. ¡Descubre cómo Milena Garcia redefine la
+          experiencia de asistencia técnica!</p>
+        <p class="text-end w-100 fst-italic"> - MILENA GARCIA</p>
       </div>
     </div>
   </div>
@@ -31,7 +38,7 @@
 <br>
 <ng-container *ngFor="let seccion of secciones">
   <section class="container-equipo container-fluid p-4 h-100">
-    <h1 class="text-center">{{ seccion.titulo }}</h1>
+    <h1 class="Title-work text-center mb-3">{{ seccion.titulo }}</h1>
     <div class="row align-items-center justify-content-center">
       <div class="container-img-about col-md-6 d-flex align-items-center justify-content-center p-4">
         <img [src]="seccion.imagenSrc" [alt]="seccion.imagenAlt" class="img-fluid" [style]="seccion.imagenEstilo"

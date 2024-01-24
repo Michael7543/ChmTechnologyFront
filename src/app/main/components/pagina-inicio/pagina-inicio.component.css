@@ -95,6 +95,50 @@ a:hover {
   object-position: center center;
 }
 
+.card {
+  transition: transform 0.5s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
 app-WhatsApp {
   z-index: 4;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.container-img-about img {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes colorChange {
+  0% {
+    color: #3498db;
+  }
+
+  50% {
+    color: rgb(79, 79, 255);
+  }
+
+  100% {
+    color: #3498db;
+  }
+}
+
+.title-section {
+  animation: colorChange 3s infinite;
 }

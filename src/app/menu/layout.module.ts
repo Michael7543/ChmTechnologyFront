@@ -5,14 +5,17 @@ import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { HeaderComponent } from './layout/header/header.component';
-
-
+import { BadgeModule } from 'primeng/badge';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
-  
+    RouterModule,
+    BadgeModule,
+    AvatarModule,
+    AvatarGroupModule
   ],
   exports:[
     FooterComponent,

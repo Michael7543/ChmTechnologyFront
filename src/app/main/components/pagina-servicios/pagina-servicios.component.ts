@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ServiciosChmModel, UpdateServicioDTO } from '../../entities/ServiciosChm';
-import { ImagenModel } from '../../entities/Imagen';
-import { CategoriaModel } from '../../entities/Categoria';
-import { ESTADO } from '../../enums/Estado';
-import { ServicioChmService } from '../../services/servicioschm.service';
-import { ImagenesService } from '../../services/imagenes.service';
-import { CategoriaService } from '../../services/categoria.service';
+import { FormGroup } from '@angular/forms';
 import { firstValueFrom, forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
+import { CategoriaModel } from '../../entities/Categoria';
+import { ImagenModel } from '../../entities/Imagen';
+import {
+  ServiciosChmModel,
+  UpdateServicioDTO,
+} from '../../entities/ServiciosChm';
 import { CarritoService } from '../../services/carrito.service';
+import { CategoriaService } from '../../services/categoria.service';
+import { ServicioChmService } from '../../services/servicioschm.service';
 
 @Component({
   selector: 'app-pagina-servicios',
   templateUrl: './pagina-servicios.component.html',
-  styleUrls: ['./pagina-servicios.component.css']
+  styleUrls: ['./pagina-servicios.component.css'],
 })
 export class PaginaServiciosComponent implements OnInit {
   ServiciosForm: FormGroup = new FormGroup({});
@@ -26,26 +27,28 @@ export class PaginaServiciosComponent implements OnInit {
   servicios: ServiciosChmModel[] = [];
   displayModal: boolean = false;
   selectedServ: ServiciosChmModel | undefined;
-  listadoserviciosFiltrados: ServiciosChmModel[]=[];
+  listadoserviciosFiltrados: ServiciosChmModel[] = [];
+
   constructor(
     private serviciosService: ServicioChmService,
     private categoriaService: CategoriaService,
     private carritoService: CarritoService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     forkJoin({
       servicios: firstValueFrom(this.serviciosService.getServicio()),
-      categorias: this.categoriaService.getCategoria()
+      categorias: this.categoriaService.getCategoria(),
     }).subscribe(
       ({ servicios, categorias }) => {
         this.listadoservicios = servicios;
         console.log('Servicios:', this.listadoservicios);
-  
+
         // Filtrar categorías después de obtener servicios
-        this.listadocategoria = categorias.filter(categoria =>
-          this.listadoservicios.some(servicio => servicio.categoria.id === categoria.id)
+        this.listadocategoria = categorias.filter((categoria) =>
+          this.listadoservicios.some(
+            (servicio) => servicio.categoria.id === categoria.id
+          )
         );
       },
       (error) => {
@@ -54,9 +57,15 @@ export class PaginaServiciosComponent implements OnInit {
     );
   }
 
-  openModal(servicios: ServiciosChmModel): void {
-    this.selectedServ = servicios;
-    this.displayModal = true;
+  filtrarPorCategoria(categoriaId: number): void {
+    if (categoriaId) {
+      this.listadoserviciosFiltrados = this.listadoservicios.filter(
+        (servicios) => servicios.categoria.id === categoriaId
+      );
+    } else {
+      // Si no hay categoría seleccionada, mostrar todos los productos
+      this.listadoserviciosFiltrados = this.listadoservicios;
+    }
   }
 
   agregarAlCarrito(selectedServ: any | undefined) {
@@ -66,9 +75,9 @@ export class PaginaServiciosComponent implements OnInit {
         servicio: selectedServ.nombre,
         // Otros campos específicos del producto, según lo requerido por el servidor
       };
-  
+
       console.log('Datos del producto a enviar al carrito:', servicio);
-  
+
       this.carritoService.agregarCarrito(servicio).subscribe(
         (response) => {
           this.displayModal = false;
@@ -77,7 +86,7 @@ export class PaginaServiciosComponent implements OnInit {
             icon: 'success',
             title: 'Producto Agregado al Carrito',
             text: 'El producto se ha agregado correctamente.',
-            timer: 2000
+            timer: 2000,
           });
           // Aquí puedes agregar lógica adicional si es necesario
         },
@@ -87,7 +96,7 @@ export class PaginaServiciosComponent implements OnInit {
             icon: 'error',
             title: 'Loguearse para poder agregar al carrito.',
             text: 'El servicio no se ha agregado correctamente.',
-            timer: 2000
+            timer: 2000,
           });
         }
       );
@@ -97,10 +106,7 @@ export class PaginaServiciosComponent implements OnInit {
     }
   }
 
-
- 
-
- /*  trackByImagen(index: number, imagen: any): number {
+  /*  trackByImagen(index: number, imagen: any): number {
     return imagen.id;
   } */
 
@@ -108,8 +114,10 @@ export class PaginaServiciosComponent implements OnInit {
     this.categoriaService.getCategoria().subscribe(
       (categorias: CategoriaModel[]) => {
         // Filtrar categorías que pertenecen a ServiciosChmModel
-        this.listadocategoria = categorias.filter(categoria =>
-          this.listadoservicios.some(servicio => servicio.categoria.id === categoria.id)
+        this.listadocategoria = categorias.filter((categoria) =>
+          this.listadoservicios.some(
+            (servicio) => servicio.categoria.id === categoria.id
+          )
         );
       },
       (error) => {
@@ -117,16 +125,11 @@ export class PaginaServiciosComponent implements OnInit {
       }
     );
   }
-  
 
-  filtrarPorCategoria(categoriaId: number): void {
-    if (categoriaId) {
-      this.listadoserviciosFiltrados = this.listadoservicios.filter(servicios => servicios.categoria.id === categoriaId);
-    } else {
-      // Si no hay categoría seleccionada, mostrar todos los productos
-      this.listadoserviciosFiltrados = this.listadoservicios;
-    }
+  trackByIdCategoriaService(index: number, categoria: CategoriaModel): number {
+    return categoria.id;
   }
+
   async getServicio() {
     try {
       const data = await firstValueFrom(this.serviciosService.getServicio());
@@ -136,6 +139,9 @@ export class PaginaServiciosComponent implements OnInit {
       console.error('Error al obtener productos:', error);
     }
   }
- 
- 
+
+  openModal(servicios: ServiciosChmModel): void {
+    this.selectedServ = servicios;
+    this.displayModal = true;
+  }
 }

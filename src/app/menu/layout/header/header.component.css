@@ -101,3 +101,10 @@ button.btn-close.text-reset {
 .cerrar {
     cursor: pointer;
 }
+
+:host::ng-deep span#pn_id_1_badge {
+    background: #00406E !important;
+    color     : #fff !important;
+    font-size : 12px !important;
+    top       : -.4rem !important;
+}

@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   UsuarioForm: FormGroup = new FormGroup({});
   username: string = '';
   password: string = '';
+  emailPattern: string = '^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$';
   mostrarContrasenia: boolean = false;
   passwordPromptLabel = 'Ingrese su contraseña';
   weakLabel = 'Débil';

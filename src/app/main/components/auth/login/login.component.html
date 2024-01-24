@@ -33,8 +33,8 @@
               <!-- Email input -->
               <div class="form-outline mb-2">
                 <label class="form-label p-text-bold" for="username">Email</label>
-                <input pInputText type="email" id="username" [(ngModel)]="username" autocomplete="username"
-                  class="form-control ng-invalid ng-dirty" name="username" required title="Ingrese su correo electrónico" pattern="[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"/>
+                <input pInputText type="email" id="username" [(ngModel)]="username" autocomplete="username" [pattern]="emailPattern"
+                  class="form-control ng-invalid ng-dirty" name="username" required title="Ingrese su correo electrónico"/>
                 <ng-container *ngTemplateOutlet="mensajeErrorEmail"></ng-container>
               </div>
               <!-- Password input -->
@@ -104,7 +104,7 @@
 
 <ng-template #mensajeErrorEmail>
   <div *ngIf="formulario.controls['username'].errors && formulario.controls['username'].touched" class="text-danger">
-    <small>*Campo requerido</small>
+    <small>*Campo obligatorio / Por favor, verifique su dirección de correo electrónico.</small>
   </div>
   <div *ngIf="formulario.controls['username'].errors?.['username'] && formulario.controls['username'].touched">
     Formato de correo electrónico no válido

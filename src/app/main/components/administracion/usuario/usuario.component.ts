@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { RolesModel } from 'src/app/main/entities/Roles';
-import { UsuarioModel, UpdateUsuarioDTO } from 'src/app/main/entities/Usuario';
+import { UpdateUsuarioDTO, UsuarioModel } from 'src/app/main/entities/Usuario';
 import { ROLES } from 'src/app/main/enums/Roles';
 import { UsuarioService } from 'src/app/main/services/usuario.service';
 import Swal from 'sweetalert2';
@@ -63,7 +63,7 @@ export class UsuarioComponent implements OnInit {
         const data = await firstValueFrom(this.usuarioService.getUsuario());
         this.listadousuario = data;
         this.loading = false;
-        console.log('Usuarios:', this.listadousuario);
+        //console.log('Usuarios:', this.listadousuario);
       } catch (error) {
         console.error('Error al obtener Usuarios:', error);
       }
@@ -76,14 +76,14 @@ export class UsuarioComponent implements OnInit {
         const data = await firstValueFrom(this.usuarioService.getRoles());
         this.listadoroles = data;
         this.loading = false;
-        console.log('Roles:', this.listadoroles);
+        //console.log('Roles:', this.listadoroles);
       } catch (error) {
         console.error('Error al obtener Roles:', error);
       }
     }
 
     editusuario(lista:any){
-      console.log('Datos recibidos para editar:', lista);
+      //console.log('Datos recibidos para editar:', lista);
       this.selectUsuario = lista;
       const roleName = lista.role && lista.role.length > 0 ? lista.role[0].name : '';
 
@@ -104,7 +104,7 @@ export class UsuarioComponent implements OnInit {
     agregarUsuario() {
       let usuario: UsuarioModel = this.UsuarioForm.value;
     
-      console.log('Datos del formulario:', usuario);
+      //console.log('Datos del formulario:', usuario);
       this.usuarioService.crearUsuario(usuario).subscribe(
         (response: any) => {
           // Muestra el token en la consola para depuración
@@ -131,12 +131,12 @@ export class UsuarioComponent implements OnInit {
     updateUsuario(): any { 
       const id = this.selectUsuario.id ?? 0; 
       const data = this.UsuarioUpdateForm.value;
-      console.log('Datos a enviar para actualizar:', data); // Agregar esta línea
+      //console.log('Datos a enviar para actualizar:', data); // Agregar esta línea
       //data.role.id = parseInt(data.role.id.toString());
       this.usuarioService.updateUsuario(id, data).subscribe((response) => {
-        console.log(response);
+        //console.log(response);
         const usarioUpdate = this.getUser();
-        console.log(usarioUpdate);
+        //console.log(usarioUpdate);
         Swal.fire({
           icon: 'success',
           title: 'Usuario actualizado',

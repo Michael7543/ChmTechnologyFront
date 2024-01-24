@@ -119,7 +119,7 @@ export class LoginComponent implements OnInit {
   private extractUserRole(accessToken: string): string {
     try {
       const decodedToken: any = jwtDecode(accessToken);
-      //console.log(decodedToken);
+      ////console.log(decodedToken);
 
       // Verifica si el campo "role" existe y es un array
       if (decodedToken.role && Array.isArray(decodedToken.role)) {
@@ -143,7 +143,7 @@ export class LoginComponent implements OnInit {
   /* private extractUserRole(accessToken: string): string {
     try {
       const decodedToken: any = jwtDecode(accessToken); // Asegúrate de que estás utilizando jwt_decode
-      console.log(decodedToken);
+      //console.log(decodedToken);
       const firstRole = decodedToken.role[0]; // Obtén el primer rol del array
       return firstRole ? firstRole.name : ''; // Asegúrate de que existe un rol y devuelve su nombre
     } catch (error) {

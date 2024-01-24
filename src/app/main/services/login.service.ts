@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import * as CryptoJS from 'crypto-js';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { LoginModel } from '../entities/Login';
+import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { v4 } from 'uuid';
-import * as CryptoJS from 'crypto-js';
 
 
 @Injectable({
@@ -58,7 +57,7 @@ export class LoginService {
       if (encryptedPassword && encryptionKey) {
         // Utiliza la clave aleatoria para desencriptar
         const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, encryptionKey).toString(CryptoJS.enc.Utf8);
-        console.log('contraseña',decryptedPassword);
+        //console.log('contraseña',decryptedPassword);
         return decryptedPassword;
       }
     
@@ -79,7 +78,7 @@ export class LoginService {
             return 'Error al desencriptar el nombre de usuario';
           }
     
-          console.log('Decrypted username:', decryptedUsername);
+          //console.log('Decrypted username:', decryptedUsername);
           return decryptedUsername;
         } catch (error) {
           console.error('Error decrypting username:', error);

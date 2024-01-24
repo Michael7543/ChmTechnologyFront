@@ -95,10 +95,10 @@ export class CarritoUsuarioComponent implements OnInit {
   processCarritoData(data: any) {
     this.listadocarrito = data;
     this.loading = false;
-    console.log('Carrito antes del filtrado:', this.listadocarrito);
+    //console.log('Carrito antes del filtrado:', this.listadocarrito);
 
     const username = this.authservice.getUsername();
-    console.log(username);
+    //console.log(username);
 
     if (!username) {
       this.handleError('No se pudo obtener el username desencriptado.');
@@ -113,7 +113,7 @@ export class CarritoUsuarioComponent implements OnInit {
       (item) => item.usuario && item.usuario.email === username
     );
 
-    console.log('Carrito después del filtrado:', this.listadocarrito);
+    //console.log('Carrito después del filtrado:', this.listadocarrito);
     const cantidadRegistros = this.listadocarrito.length;
     this.catidadRegistrosService.actualizarCantidadRegistros(cantidadRegistros);
   }
@@ -127,18 +127,18 @@ export class CarritoUsuarioComponent implements OnInit {
   //     const data = await firstValueFrom(this.carritoService.getCarrito());
   //     this.listadocarrito = data;
   //     this.loading = false;
-  //     console.log('Carrito antes del filtrado:', this.listadocarrito);
+  //     //console.log('Carrito antes del filtrado:', this.listadocarrito);
 
   //     // Obtener el username desencriptado del localStorage
   //     const username = this.authservice.getUsername();
-  //     console.log(username);
+  //     //console.log(username);
   //     if (username) {
   //       // Filtrar la lista de carrito por username
   //       this.listadocarrito = this.listadocarrito.filter(
   //         (item) => item.usuario && item.usuario.email === username
   //       );
 
-  //       console.log('Carrito después del filtrado:', this.listadocarrito);
+  //       //console.log('Carrito después del filtrado:', this.listadocarrito);
   //       /* Emision de cantidad de registros en el carrito */
   //       const cantidadRegistros = this.listadocarrito.length;
   //       this.catidadRegistrosService.actualizarCantidadRegistros(
@@ -157,7 +157,7 @@ export class CarritoUsuarioComponent implements OnInit {
       const data = await firstValueFrom(this.imagenService.getImagenes());
       this.listadoimagenes = data;
       this.loading = false;
-      console.log(this.listadoimagenes);
+      //console.log(this.listadoimagenes);
     } catch (error) {
       console.error('Error al obtener imágenes:', error);
     }

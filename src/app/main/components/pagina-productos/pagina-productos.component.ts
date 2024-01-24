@@ -37,7 +37,7 @@ export class PaginaProductosComponent implements OnInit {
     }).subscribe({
       next: ({ productos, categorias }) => {
         this.listadoproductos = productos;
-        console.log('Productos:', this.listadoproductos);
+        //console.log('Productos:', this.listadoproductos);
 
         // Filtrar categorías después de obtener productos
         this.listadocategoria = categorias.filter(
@@ -66,12 +66,12 @@ export class PaginaProductosComponent implements OnInit {
         producto: selectedProduct.nombre,
       };
 
-      console.log('Datos del producto a enviar al carrito:', carrito);
+      //console.log('Datos del producto a enviar al carrito:', carrito);
 
       this.carritoService.agregarCarrito(carrito).subscribe({
         next: (response) => {
           this.displayModal = false;
-          console.log('Producto agregado al carrito con éxito:', response);
+          //console.log('Producto agregado al carrito con éxito:', response);
           Swal.fire({
             icon: 'success',
             title: 'Producto Agregado al Carrito',
@@ -149,7 +149,7 @@ export class PaginaProductosComponent implements OnInit {
     try {
       const data = await firstValueFrom(this.productoService.getProductos());
       this.listadoproductos = data;
-      console.log('Productos:', this.listadoproductos);
+      //console.log('Productos:', this.listadoproductos);
     } catch (error) {
       console.error('Error al obtener productos:', error);
     }

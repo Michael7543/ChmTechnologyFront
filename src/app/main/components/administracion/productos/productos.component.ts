@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
+    FormBuilder,
+    FormGroup,
+    Validators
 } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { CategoriaModel } from 'src/app/main/entities/Categoria';
 import { ImagenModel, UpdateImagenDTO } from 'src/app/main/entities/Imagen';
 import {
-  ProductoModel,
-  UpdateProductoDTO,
+    ProductoModel,
+    UpdateProductoDTO,
 } from 'src/app/main/entities/Producto';
 import { ESTADO } from 'src/app/main/enums/Estado';
 import { CategoriaService } from 'src/app/main/services/categoria.service';
@@ -75,7 +74,7 @@ export class ProductosComponent implements OnInit {
       const data = await firstValueFrom(this.productoService.getProductos());
       this.listadoproductos = data;
       this.loading = false;
-      console.log('Productos:', this.listadoproductos);
+      //console.log('Productos:', this.listadoproductos);
     } catch (error) {
       console.error('Error al obtener productos:', error);
     }
@@ -92,7 +91,7 @@ export class ProductosComponent implements OnInit {
       const data = await firstValueFrom(this.imagenService.getImagenes());
       this.listadoimagenes = data;
       this.loading = false;
-      console.log(this.listadoimagenes);
+      //console.log(this.listadoimagenes);
     } catch (error) {
       console.error('Error al obtener imágenes:', error);
     }
@@ -102,7 +101,7 @@ export class ProductosComponent implements OnInit {
     try {
       const data = await firstValueFrom(this.categoriaService.getCategoria());
       this.listadocategoria = data;
-      console.log(this.listadocategoria);
+      //console.log(this.listadocategoria);
     } catch (error) {
       console.error('Error al obtener categorías:', error);
     }
@@ -113,11 +112,11 @@ export class ProductosComponent implements OnInit {
   }
 
   editProducto(lista: any) {
-    console.log('Datos recibidos para editar:', lista);
+    //console.log('Datos recibidos para editar:', lista);
     this.selectProducto = lista;
     const filename = lista.imagenes && lista.imagenes.length > 0 ? lista.imagenes[0].filename : '';
   
-    console.log('Filename capturado:', filename); // Agregar este console.log
+    //console.log('Filename capturado:', filename); // Agregar este //console.log
   
     this.ProductosForm.patchValue({
       nombre: lista.nombre,
@@ -134,11 +133,11 @@ export class ProductosComponent implements OnInit {
   }
 
   editImagen(listaimg: any) {
-    console.log('Datos recibidos de imagen para editar:', listaimg);
+    //console.log('Datos recibidos de imagen para editar:', listaimg);
     this.selectImagen = listaimg;
     const filename = listaimg.imagenes && listaimg.imagenes.length > 0 ? listaimg.imagenes[0].filename : '';
   
-    console.log('Filename capturado:', filename); // Agregar este console.log
+    //console.log('Filename capturado:', filename); // Agregar este //console.log
   
    
       this.ImagenForm.patchValue({
@@ -146,18 +145,18 @@ export class ProductosComponent implements OnInit {
       // file: listaimg.file
       });
     
-    console.log('datos del filename',filename)
+    //console.log('datos del filename',filename)
   }
   saveProductos() {
     const id = this.selectProducto.id ?? 0;
-    console.log('Valor de la ID en saveCategoria:', id);
+    //console.log('Valor de la ID en saveCategoria:', id);
 
     if (id) {
       this.updateProducto(id);
-      console.log('Actualizando producto existente. ID:', id);
+      //console.log('Actualizando producto existente. ID:', id);
     } else {
       this.agregarProductos();
-      console.log('Agregando nueva categoría sin ID');
+      //console.log('Agregando nueva categoría sin ID');
     }
   }
 
@@ -201,7 +200,7 @@ export class ProductosComponent implements OnInit {
           title: 'Producto creado',
           text: 'El producto se ha creado correctamente.',
         });
-        console.log('Producto creado con éxito:', response);
+        //console.log('Producto creado con éxito:', response);
         this.getProducto();
       } catch (error) {
         console.error('Error al crear producto:', error);
@@ -212,18 +211,18 @@ export class ProductosComponent implements OnInit {
 
   async updateProducto(id: number): Promise<void> {
     const data = this.ProductosForm.value;
-    console.log('Datos a enviar para actualizar:', data);
+    //console.log('Datos a enviar para actualizar:', data);
   
     try {
       // Dentro de la función updateProducto
-      console.log('ID a actualizar:', id);
-      console.log('Datos a enviar para actualizar:', data);
+      //console.log('ID a actualizar:', id);
+      //console.log('Datos a enviar para actualizar:', data);
   
       const response = await firstValueFrom(
         this.productoService.updateProducto(id, data)
       );
   
-      console.log(response);
+      //console.log(response);
       this.getProducto();
   
       Swal.fire({
@@ -251,14 +250,14 @@ export class ProductosComponent implements OnInit {
       });
   
       try {
-        console.log('filename a actualizar:', filename);
-        console.log('Datos a enviar para actualizar:', formData);
+        //console.log('filename a actualizar:', filename);
+        //console.log('Datos a enviar para actualizar:', formData);
   
         const response = await firstValueFrom(
           this.imagenService.updateImagenes(filename, formData)
         );
   
-        console.log(response);
+        //console.log(response);
         this.getProducto();
         
   

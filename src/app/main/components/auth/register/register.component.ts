@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuarioModel } from 'src/app/main/entities/Usuario';
@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
   /* agregarUsuario() {
     let usuario: UsuarioModel = this.FormUsuario.value;
 
-    console.log('Datos del formulario:', usuario);
+    //console.log('Datos del formulario:', usuario);
     this.usuarioService.crearUsuario(usuario).subscribe(
       (response: any) => {
         // Muestra el token en la consola para depuración
@@ -80,7 +80,7 @@ export class RegisterComponent implements OnInit {
   agregarUsuario() {
     let usuario: UsuarioModel = this.FormUsuario.value;
 
-    console.log('Datos del formulario:', usuario);
+    //console.log('Datos del formulario:', usuario);
 
     this.usuarioService.crearUsuario(usuario).subscribe({
       next: (response: any) => {

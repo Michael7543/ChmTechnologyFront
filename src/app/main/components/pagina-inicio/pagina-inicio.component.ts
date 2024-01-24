@@ -51,7 +51,7 @@ export class PaginaInicioComponent implements OnInit {
         message: this.datos.mensaje,
       };
 
-      console.log(emailjsData); // Verifica si los datos del correo electrónico son correctos
+      //console.log(emailjsData); // Verifica si los datos del correo electrónico son correctos
 
       emailjs
         .send(
@@ -61,7 +61,7 @@ export class PaginaInicioComponent implements OnInit {
           'vGg3XGGDDJzrRQEvg'
         )
         .then((response) => {
-          console.log('Correo enviado con éxito:', response);
+          //console.log('Correo enviado con éxito:', response);
 
           // Muestra un SweetAlert de éxito
           Swal.fire({

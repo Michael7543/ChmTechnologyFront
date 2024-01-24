@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { RolesModel } from 'src/app/main/entities/Roles';
-import { ServiciosChmModel, UpdateServicioDTO } from 'src/app/main/entities/ServiciosChm';
-import { ImagenModel, UpdateImagenDTO } from 'src/app/main/entities/Imagen';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 import { CategoriaModel } from 'src/app/main/entities/Categoria';
-import Swal from 'sweetalert2';
+import { ImagenModel, UpdateImagenDTO } from 'src/app/main/entities/Imagen';
+import { ServiciosChmModel, UpdateServicioDTO } from 'src/app/main/entities/ServiciosChm';
+import { ESTADO } from 'src/app/main/enums/Estado';
 import { CategoriaService } from 'src/app/main/services/categoria.service';
 import { ImagenesService } from 'src/app/main/services/imagenes.service';
 import { ServicioChmService } from 'src/app/main/services/servicioschm.service';
-import { ESTADO } from 'src/app/main/enums/Estado';
-import { firstValueFrom } from 'rxjs';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -67,7 +66,7 @@ export class ServiciosComponent implements OnInit {
     try {
       const data = await firstValueFrom(this.servicioService.getServicio());
       this.listadoservicios = data;
-      console.log(this.listadoservicios);
+      //console.log(this.listadoservicios);
     } catch (error) {
       console.error('Error al obtener servicio:', error);
     }
@@ -84,7 +83,7 @@ export class ServiciosComponent implements OnInit {
       const data = await firstValueFrom(this.imagenService.getImagenes());
       this.listadoimagenes = data;
       this.loading = false;
-      console.log(this.listadoimagenes);
+      //console.log(this.listadoimagenes);
     } catch (error) {
       console.error('Error al obtener imágenes:', error);
     }
@@ -93,7 +92,7 @@ export class ServiciosComponent implements OnInit {
     try {
       const data = await firstValueFrom(this.categoriaService.getCategoria());
       this.listadocategoria = data;
-      console.log(this.listadocategoria);
+      //console.log(this.listadocategoria);
     } catch (error) {
       console.error('Error al obtener categorías:', error);
     }
@@ -103,7 +102,7 @@ export class ServiciosComponent implements OnInit {
     return categoria.id;
   }
   editServicio(lista:any){
-    console.log('Datos recibidos para editar:', lista);
+    //console.log('Datos recibidos para editar:', lista);
     this.selectServicio = lista;
     
     this.ServiciosForm.patchValue({
@@ -118,11 +117,11 @@ export class ServiciosComponent implements OnInit {
     
   }
   editImagen(listaimg: any) {
-    console.log('Datos recibidos de imagen para editar:', listaimg);
+    //console.log('Datos recibidos de imagen para editar:', listaimg);
     this.selectImagen = listaimg;
     const filename = listaimg.imagenes && listaimg.imagenes.length > 0 ? listaimg.imagenes[0].filename : '';
   
-    console.log('Filename capturado:', filename); // Agregar este console.log
+    //console.log('Filename capturado:', filename); // Agregar este //console.log
   
    
       this.ImagenForm.patchValue({
@@ -130,19 +129,19 @@ export class ServiciosComponent implements OnInit {
       // file: listaimg.file
       });
     
-    console.log('datos del filename',filename)
+    //console.log('datos del filename',filename)
   }
 
   saveServicio() {
     const id = this.selectServicio.id ?? 0;
-    console.log('Valor de la ID en saveCategoria:', id);
+    //console.log('Valor de la ID en saveCategoria:', id);
 
     if (id) {
       this.updateServicio(id);
-      console.log('Actualizando producto existente. ID:', id);
+      //console.log('Actualizando producto existente. ID:', id);
     } else {
       this.agregarServicio();
-      console.log('Agregando nueva categoría sin ID');
+      //console.log('Agregando nueva categoría sin ID');
     }
   }
 
@@ -159,7 +158,7 @@ export class ServiciosComponent implements OnInit {
       );
       formData.append('categoria', this.ServiciosForm.get('categoria')?.value);
       formData.append('estado', this.ServiciosForm.get('estado')?.value);
-      console.log('FormData antes de enviar:', formData);
+      //console.log('FormData antes de enviar:', formData);
       // Agregar la imagen al FormData
       const file = this.ServiciosForm.get('file')?.value;
       if (file) {
@@ -169,7 +168,7 @@ export class ServiciosComponent implements OnInit {
       // Enviar el FormData al servicio
       this.servicioService.crearServicio(formData).subscribe(
         (response) => {
-          console.log('Servicio creado con éxito:', response);
+          //console.log('Servicio creado con éxito:', response);
           this.getServicio();
           Swal.fire('Éxito', 'El servicio ha sido creado con éxito', 'success');
         },
@@ -208,18 +207,18 @@ export class ServiciosComponent implements OnInit {
 
   async updateServicio(id: number): Promise<void> {
     const data = this.ServiciosForm.value;
-    console.log('Datos a enviar para actualizar:', data);
+    //console.log('Datos a enviar para actualizar:', data);
   
     try {
       // Dentro de la función updateProducto
-      console.log('ID a actualizar:', id);
-      console.log('Datos a enviar para actualizar:', data);
+      //console.log('ID a actualizar:', id);
+      //console.log('Datos a enviar para actualizar:', data);
   
       const response = await firstValueFrom(
         this.servicioService.updateServicio(id, data)
       );
   
-      console.log(response);
+      //console.log(response);
       this.getServicio();
   
       Swal.fire({
@@ -246,14 +245,14 @@ export class ServiciosComponent implements OnInit {
     });
 
     try {
-      console.log('filename a actualizar:', filename);
-      console.log('Datos a enviar para actualizar:', formData);
+      //console.log('filename a actualizar:', filename);
+      //console.log('Datos a enviar para actualizar:', formData);
 
       const response = await firstValueFrom(
         this.imagenService.updateImagenes(filename, formData)
       );
 
-      console.log(response);
+      //console.log(response);
       this.getServicio();
       
 

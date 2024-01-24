@@ -1,15 +1,14 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
+  HttpErrorResponse,
   HttpEvent,
+  HttpHandler,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpRequest
 } from '@angular/common/http';
-import { BehaviorSubject, EMPTY, Observable, catchError, filter, switchMap, take, throwError, timer } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, catchError, switchMap, throwError } from 'rxjs';
 import { LoginService } from '../main/services/login.service';
-import Swal from 'sweetalert2';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -68,14 +67,14 @@ export class AuthInterceptor implements HttpInterceptor {
       return throwError('No se pudo desencriptar la contraseña');
     }
 
-    console.log('Usando refreshToken:', refreshToken);
+    //console.log('Usando refreshToken:', refreshToken);
 
     this.isRefreshing = true;
     this.refreshTokenSubject.next(null);
 
     return this.authService.refreshToken(decryptedUsername, decryptedPassword, refreshToken).pipe(
       switchMap((refreshResponse) => {
-        console.log('Token se actualizó con éxito:', refreshResponse);
+        //console.log('Token se actualizó con éxito:', refreshResponse);
         this.isRefreshing = false;
         this.refreshTokenSubject.next(refreshResponse.accessToken);
 
@@ -84,7 +83,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
         // Retrata la solicitud original con el nuevo token y continúa
         const updatedRequest = this.addToken(request, refreshResponse.accessToken);
-        console.log('Volver a intentar la solicitud original con un nuevo token:', updatedRequest);
+        //console.log('Volver a intentar la solicitud original con un nuevo token:', updatedRequest);
 
         // Llama recursivamente a handleRequestWithTokenExpirationCheck para volver a intentar la solicitud original
         return this.handleRequestWithTokenExpirationCheck(updatedRequest, request, next);

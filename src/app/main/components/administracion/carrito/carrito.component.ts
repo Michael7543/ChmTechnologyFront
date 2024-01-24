@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CarritoService } from '../../../services/carrito.service';
 import { firstValueFrom } from 'rxjs';
-import { CarritoModel } from '../../../entities/Carrito';
 import Swal from 'sweetalert2';
+import { CarritoModel } from '../../../entities/Carrito';
+import { CarritoService } from '../../../services/carrito.service';
 
 @Component({
   selector: 'app-carrito',
@@ -25,7 +25,7 @@ export class CarritoComponent implements OnInit {
       const data = await firstValueFrom(this.carritoService.getCarrito());
       this.listadocarrito = data;
       this.loading = false;
-      console.log('Carrito:', this.listadocarrito);
+      //console.log('Carrito:', this.listadocarrito);
     } catch (error) {
       console.error('Error al obtener carrito:', error);
     }

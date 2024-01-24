@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import {
-  CategoriaModel,
-  UpdateCategoriaDTO,
+    CategoriaModel,
+    UpdateCategoriaDTO,
 } from 'src/app/main/entities/Categoria';
 import { ESTADO } from 'src/app/main/enums/Estado';
 import { CategoriaService } from 'src/app/main/services/categoria.service';
@@ -44,14 +44,14 @@ export class CategoriaComponent implements OnInit {
       const data = await firstValueFrom(this.categoriaService.getCategoria());
       this.listadocategoria = data;
       this.loading = false;
-      console.log('Productos:', this.listadocategoria);
+      //console.log('Productos:', this.listadocategoria);
     } catch (error) {
       console.error('Error al obtener productos:', error);
     }
   }
 
   editCategoria(lista: any) {
-    console.log('Datos recibidos para editar:', lista);
+    //console.log('Datos recibidos para editar:', lista);
     this.selectCategoria = lista;
     this.CategoriaForm.setValue({
       nombre: lista.nombre,
@@ -59,25 +59,25 @@ export class CategoriaComponent implements OnInit {
       estado: lista.estado,
     });
   
-    console.log('esta es mi id',this.selectCategoria.id);
+    //console.log('esta es mi id',this.selectCategoria.id);
   }
   saveCategoria() {
     const id = this.selectCategoria.id ?? 0; 
-    console.log('Valor de la ID en saveCategoria:', id);
+    //console.log('Valor de la ID en saveCategoria:', id);
   
     if (id) {
       this.updateCategoria(id);
-      console.log('Actualizando producto existente. ID:', id);
+      //console.log('Actualizando producto existente. ID:', id);
     } else {
       this.agregarCategoria();
-      console.log('Agregando nueva categoría sin ID');
+      //console.log('Agregando nueva categoría sin ID');
     }
   }
   
   agregarCategoria() {
     let categoria: CategoriaModel = this.CategoriaForm.value;
 
-    console.log('Datos del formulario:', categoria);
+    //console.log('Datos del formulario:', categoria);
     this.categoriaService.crearCategoria(categoria).subscribe(
       (response: any) => {
         // Muestra el token en la consola para depuración
@@ -105,11 +105,11 @@ export class CategoriaComponent implements OnInit {
 
   updateCategoria(id:number): void {
     const data = this.CategoriaForm.value;
-    console.log('Datos a enviar para actualizar:', data);
+    //console.log('Datos a enviar para actualizar:', data);
 
     this.categoriaService.updateCategoria(id, data).subscribe(
       (response) => {
-        console.log(response);
+        //console.log(response);
         this.getCategoria();
         Swal.fire({
           icon: 'success',

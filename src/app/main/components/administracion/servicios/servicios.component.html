@@ -57,7 +57,7 @@
             style="background-color:rgb(215, 19, 19);" (click)="eliminarServicio(servicio.id)"
             aria-label="Eliminar"></button>
           <button pButton pRipple icon="pi pi-pencil" class="btn-acctions rounded-3" style="background-color:#FB8B24;"
-            (click)="editServicio(servicio)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            (click)="editServicio(servicio)" data-bs-toggle="modal" data-bs-target="#exampleModal2"
             aria-label="Editar"></button>
         </td>
         </tr>
@@ -72,6 +72,7 @@
   </p-table>
 </div>
 
+<!-- modal crear servicio -->
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -163,6 +164,135 @@
             </div>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- modal actualizar servicio -->
+
+<div class="modal" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-labelledby="staticBackdropLabel"  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header p-3 px-5">
+        <h5 class="modal-title fw-bold" id="exampleModalLabel">Actualizar Servicio</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="ServiciosForm.reset();this.selectServicio = {};"></button>
+      </div>
+      <div class="modal-body p-4 px-4">
+        <form enctype="multipart/form-data" [formGroup]="ServiciosForm"
+          (ngSubmit)="saveServicio(); ServiciosForm.reset()">
+          <div class="user-details py-2">
+            <div class="row">
+
+              <div class="col-md-12">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" maxlength="50" formControlName="nombre" name="nombre"
+                      class="form-control p-inputtext-sm" aria-describedby="nombre del producto" required>
+                    <label htmlFor="nombre">Nombre</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="ServiciosForm.get('nombre')?.hasError('required') && ServiciosForm.get('nombre')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <label class="form-label">Categoria</label>
+                  <div class="custom-select-wrapper">
+                    <select class="custom-select form-select" id="categoria" name="categoria" placeholder="categoria"
+                      formControlName="categoria">
+                      <option value="" disabled selected>Seleccione una categoría</option>
+                      <option *ngFor="let categoria of listadocategoria; trackBy: trackByCategoria"
+                        [value]="categoria.nombre">{{ categoria.nombre }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="input-box d-flex flex-column gap-1">
+                  <label class="form-label">Estado</label>
+                  <div class="custom-select-wrapper">
+                    <select class="custom-select form-select" id="estado" name="estado" placeholder="estado"
+                      formControlName="estado" aria-label="Estados de producto">
+                      <option value="" disabled selected>Seleccione un Estado</option>
+                      <option *ngFor="let option of estados" [value]="option">{{ option }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="input-box d-flex flex-column gap-1">
+                  <span class="details p-float-label">
+                    <input pInputText type="text" formControlName="descripcion" name="descripcion"
+                      class="form-control p-inputtext-sm" required>
+                    <label htmlFor="descripcion">Descripción</label>
+                  </span>
+                  <div class="text-danger"
+                    *ngIf="ServiciosForm.get('descripcion')?.hasError('required') && ServiciosForm.get('descripcion')?.touched">
+                    <small>Este campo es <strong>obligatorio</strong></small>
+                  </div>
+                </div>
+              </div>
+
+               <!-- Button trigger modal -->
+      
+               <div class="input-box d-flex flex-column gap-1">
+                <button type="button" (click)="editImagen(selectServicio)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal5">
+                  Editar foto
+                </button>
+              </div>
+
+            </div>
+
+            <div class="d-flex gap-3">
+              <button type="button" pButton pRipple class="p-button-danger rounded-2" data-bs-dismiss="modal"
+                (click)="ServiciosForm.reset();this.selectServicio = {};" aria-label="Boton Cancelar">Cerrar</button>
+              <button type="button" pButton pRipple type="submit" class="p-button-success rounded-2"
+                data-bs-dismiss="modal" [disabled]="ServiciosForm.invalid" aria-label="Boton Guardar">Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal actualizar imagen -->
+<div class="modal" id="exampleModal5" tabindex="1" aria-labelledby="exampleModalLabel" aria-labelledby="staticBackdropLabel"  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Foto</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form enctype="multipart/form-data" [formGroup]="ImagenForm" (ngSubmit)="updateImagenes();">
+        <div class="input-box d-flex flex-column gap-1">
+          <span class="details">Imagen</span>
+          <div class="d-flex gap-2">
+            <input type="file" (change)="onFileSelected($event)" formControlName="file" accept="file/*"
+              class="form-control">
+            <img class="img-fluid mt-2" *ngIf="selectedFile" [src]="selectedFile" alt="Preview" width="140"
+              height="40" />
+          </div>
+        </div>
+        <div class="d-flex gap-3">
+          <button type="button" pButton pRipple class="p-button-danger rounded-2" data-bs-dismiss="modal"
+            (click)="ServiciosForm.reset();this.selectServicio = {};" aria-label="Boton Cancelar">Cerrar</button>
+            <button type="button" pButton pRipple type="submit" class="p-button-success rounded-2"
+            data-bs-dismiss="modal"  aria-label="Boton Guardar">Guardar</button>
+        </div>
+      </form>
       </div>
     </div>
   </div>

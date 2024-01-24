@@ -32,15 +32,15 @@ export class ImagenesService {
         return this.http.delete(`${this.API_URL + this.endpointimagenes}/delete/${id}`);
       }
     
-    updateImagenes(filename: FormData): Observable<UpdateImagenDTO> {
+      updateImagenes(filename: string, data: FormData): Observable<UpdateImagenDTO> {
         const headers = new HttpHeaders();
         // Ajusta el límite de carga útil según tus necesidades
-        headers.append('Content-Length', filename.toString().length.toString());
+        headers.append('Content-Length', data.toString().length.toString());
         headers.append('Content-Type', 'multipart/form-data');
-      
-        return this.http.put(`${this.API_URL + this.endpointimagenes}/update/${filename}`, { headers });
+        
+        return this.http.put(`${this.API_URL + this.endpointimagenes}/update/${filename}`, data, { headers });
       }
-    
+      
     
     
   }

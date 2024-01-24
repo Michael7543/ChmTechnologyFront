@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { RolesModel } from 'src/app/main/entities/Roles';
 import { ServiciosChmModel, UpdateServicioDTO } from 'src/app/main/entities/ServiciosChm';
-import { ImagenModel } from 'src/app/main/entities/Imagen';
+import { ImagenModel, UpdateImagenDTO } from 'src/app/main/entities/Imagen';
 import { CategoriaModel } from 'src/app/main/entities/Categoria';
 import Swal from 'sweetalert2';
 import { CategoriaService } from 'src/app/main/services/categoria.service';
@@ -20,6 +20,7 @@ import { firstValueFrom } from 'rxjs';
 export class ServiciosComponent implements OnInit {
 
   ServiciosForm: FormGroup = new FormGroup({});
+  ImagenForm: FormGroup = new FormGroup({});
   isUploading = false;
   selectedFile: string | ArrayBuffer | null = null;
   listadoservicios: ServiciosChmModel[] = []; 
@@ -29,6 +30,7 @@ export class ServiciosComponent implements OnInit {
   selectedfile: File| null = null ;
   estados = Object.values(ESTADO); 
   loading: boolean = true;
+  selectImagen: UpdateImagenDTO = {};
 
   constructor(private servicioService: ServicioChmService, private form: FormBuilder,private imagenService:ImagenesService,
     private categoriaService:CategoriaService) {
@@ -40,6 +42,12 @@ export class ServiciosComponent implements OnInit {
         estado: ['', Validators.required],
         file: ['',]
       })
+    }
+    {
+      this.ImagenForm = this.form.group({
+        //filename: [''],
+        file: [null]
+      });
     }
 
 
@@ -108,6 +116,21 @@ export class ServiciosComponent implements OnInit {
 
     });
     
+  }
+  editImagen(listaimg: any) {
+    console.log('Datos recibidos de imagen para editar:', listaimg);
+    this.selectImagen = listaimg;
+    const filename = listaimg.imagenes && listaimg.imagenes.length > 0 ? listaimg.imagenes[0].filename : '';
+  
+    console.log('Filename capturado:', filename); // Agregar este console.log
+  
+   
+      this.ImagenForm.patchValue({
+        filename: filename,
+      // file: listaimg.file
+      });
+    
+    console.log('datos del filename',filename)
   }
 
   saveServicio() {
@@ -212,7 +235,43 @@ export class ServiciosComponent implements OnInit {
       // Manejar el error según tus necesidades
     }
   }
+  async updateImagenes(): Promise<void> {
+    
   
+    const filename = Array.isArray(this.selectServicio.imagenes) ? this.selectServicio.imagenes[0]?.filename ?? '' : '';
+      
+    const formData = new FormData();
+    Object.keys(this.ServiciosForm.value).forEach((key) => {
+      formData.append(key, this.ServiciosForm.get(key)?.value);
+    });
+
+    try {
+      console.log('filename a actualizar:', filename);
+      console.log('Datos a enviar para actualizar:', formData);
+
+      const response = await firstValueFrom(
+        this.imagenService.updateImagenes(filename, formData)
+      );
+
+      console.log(response);
+      this.getServicio();
+      
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Imagen actualizada',
+        text: 'La imagen se ha actualizado correctamente.',
+      });
+
+      this.ServiciosForm.reset();
+      this.selectServicio = {};
+    } catch (error) {
+      console.error('Error al actualizar imagen:', error);
+      // Manejar el error según tus necesidades
+    }
+  
+}
+
   
   
   

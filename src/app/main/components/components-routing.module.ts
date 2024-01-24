@@ -7,6 +7,7 @@ import { AuthGuard } from 'src/app/guards/auth.guard';
 import { CarritoUsuarioComponent } from './carrito-usuario/carrito-usuario.component';
 import { PaginaProductosComponent } from './pagina-productos/pagina-productos.component';
 import { PaginaServiciosComponent } from './pagina-servicios/pagina-servicios.component';
+import { NotFoundComponent } from 'src/app/not-found/not-found.component';
 
 const routes: Routes = [
   { path: 'inicio',  component:PaginaInicioComponent, pathMatch: 'full' },
@@ -47,7 +48,11 @@ const routes: Routes = [
          canActivate: [AuthGuard]
       },
     ]
-  }, 
+  },
+  {
+    path:'**',
+    component: NotFoundComponent
+  } 
 
 ]
 

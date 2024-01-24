@@ -30,6 +30,14 @@ const routes: Routes = [
     path: 'servicios',
     loadChildren: () => import('./pagina-servicios/paginaservicio.module').then(m => m.PaginaservicioModule),
   },
+  {
+    path: 'perfil/usuario',
+    loadChildren: () => import('./perfil-usuario/perfil-usuario.module').then(m => m.PerfilUsuarioModule),
+  },
+  {
+    path: 'nosotros',
+    loadChildren: () => import('./pagina-nosotros/pagina-nosotros.module').then(m => m.PaginaNosotrosModule),
+  },
   {path: 'home',
     component: DashboardComponent,
     children: [

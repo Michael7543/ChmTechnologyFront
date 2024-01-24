@@ -11,6 +11,8 @@ import { CarritousuarioModule } from './carrito-usuario/carritousuario.module';
 import { PaginainicioModule } from './pagina-inicio/paginainicio.module';
 import { PaginaproductoModule } from './pagina-productos/paginaproducto.module';
 import { PaginaservicioModule } from './pagina-servicios/paginaservicio.module';
+import { PaginaNosotrosModule } from './pagina-nosotros/pagina-nosotros.module';
+import { PerfilUsuarioModule } from './perfil-usuario/perfil-usuario.module';
 
 @NgModule({
   imports: [
@@ -24,7 +26,9 @@ import { PaginaservicioModule } from './pagina-servicios/paginaservicio.module';
     PaginainicioModule,
     PaginaproductoModule,
     PaginaservicioModule,
-    CarritousuarioModule
+    CarritousuarioModule,
+    PaginaNosotrosModule,
+    PerfilUsuarioModule
 
     
   ],

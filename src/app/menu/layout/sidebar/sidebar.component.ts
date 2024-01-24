@@ -28,19 +28,19 @@ export class SidebarComponent  {
     {
       number: "3",
       name: "Servicios",
-      icon: "pi pi-wrench",
+      icon: "pi pi-tag",
       route: "/home/administracion/servicios",
     },
     {
       number: "4",
       name: "Categorias",
-      icon: "pi pi-wrench",
+      icon: "pi pi-list",
       route: "/home/administracion/categorias",
     },
     {
       number: "4",
       name: "Historial del Carrito",
-      icon: "pi pi-wrench",
+      icon: "pi pi-shopping-bag",
       route: "/home/administracion/carrito",
     }
 

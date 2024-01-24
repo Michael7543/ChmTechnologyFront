@@ -51,7 +51,7 @@ export class ProductosComponent implements OnInit {
         estado: ['', Validators.required],
         codigo: ['', Validators.required],
         modelo: ['', Validators.required],
-        file: [''],
+        file: ['']
       });
     }
   }
@@ -105,7 +105,10 @@ export class ProductosComponent implements OnInit {
   editProducto(lista: any) {
     console.log('Datos recibidos para editar:', lista);
     this.selectProducto = lista;
-
+    const filename = lista.imagenes && lista.imagenes.length > 0 ? lista.imagenes[0].filename : '';
+  
+    console.log('Filename capturado:', filename); // Agregar este console.log
+  
     this.ProductosForm.patchValue({
       nombre: lista.nombre,
       descripcion: lista.descripcion,
@@ -119,6 +122,7 @@ export class ProductosComponent implements OnInit {
       file: lista.file
     });
   }
+  
 
   saveProductos() {
     const id = this.selectProducto.id ?? 0;
@@ -212,7 +216,6 @@ export class ProductosComponent implements OnInit {
     }
   }
   
-
   eliminarProducto(id: number): void {
     Swal.fire({
       title: '¿Está seguro?',

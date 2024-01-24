@@ -7,12 +7,14 @@ img.w-100.h-100 {
  
 
   ::ng-deep .p-button.custom-button {
-    color: #1b1a1a; /* Color de texto personalizado */
+    color: #ffffff; /* Color de texto personalizado */
     border-radius: 8px; /* Borde redondeado */
-    background-color: #ffffff;
+    background-color: #00406E;
     border: none;
     position: relative;
     border-color: #1b1a1a;
+    min-width: 100%;
+    max-width: 100%;
   }
   
   ::ng-deep .p-button.custom-button.active:after {

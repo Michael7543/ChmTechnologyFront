@@ -59,7 +59,7 @@ export class CarritoUsuarioComponent implements OnInit {
       productosServicios
         .map((item) => `${item.nombre} - Cantidad: ${item.cantidad}`)
         .join('\n') +
-      `\n\nMonto a cotizar: ${montoCotizar}`;
+        `\n\nMonto a cotizar: $${montoCotizar}`;
 
     // Enviar el mensaje a WhatsApp (aquí puedes implementar la lógica para enviar a WhatsApp)
     this.enviarMensajeWhatsApp(mensajeWhatsApp);
@@ -87,11 +87,11 @@ export class CarritoUsuarioComponent implements OnInit {
 
       // Obtener el username desencriptado del localStorage
       const username = this.authservice.getUsername();
-
+      console.log(username)
       if (username) {
         // Filtrar la lista de carrito por username
         this.listadocarrito = this.listadocarrito.filter(
-          (item) => item.usuario && item.usuario.username === username
+          (item) => item.usuario && item.usuario.email === username
         );
 
         console.log('Carrito después del filtrado:', this.listadocarrito);

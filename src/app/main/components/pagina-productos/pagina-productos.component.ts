@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import { CarritoService } from '../../services/carrito.service';
 import { CarritoModel } from '../../entities/Carrito';
 import { ServiciosChmModel } from '../../entities/ServiciosChm';
+import { MegaMenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-pagina-productos',
@@ -37,7 +38,6 @@ export class PaginaProductosComponent implements OnInit {
   listadoproductosFiltrados: ProductoModel[] = [];
   categoriasConProductos: CategoriaModel[] = [];
   categoriaActivaIndex: number | null = null;
-  
   constructor(
     private productoService: ProductosService,
     private imagenService: ImagenesService,
@@ -53,6 +53,8 @@ export class PaginaProductosComponent implements OnInit {
     this.getProducto();
     this.getCategoria();
     this.getImagenes();
+
+    
 
   }
 
@@ -103,14 +105,41 @@ export class PaginaProductosComponent implements OnInit {
   
   filtrarPorCategoria(categoriaId: number): void {
     if (categoriaId) {
-      this.listadoproductosFiltrados = this.listadoproductos.filter(producto => producto.categoria.id === categoriaId);
+      this.filtrarProductosPorCategoria(categoriaId);
     } else {
-      // Si no hay categoría seleccionada, mostrar todos los productos
-      this.categoriaActivaIndex = this.listadocategoria.findIndex(categoria => categoria.id === categoriaId);
-      this.listadoproductosFiltrados = this.listadoproductos;
+      this.mostrarTodosLosProductos();
     }
   }
   
+  private filtrarProductosPorCategoria(categoriaId: number): void {
+    this.listadoproductosFiltrados = this.listadoproductos.filter(producto => producto.categoria.id === categoriaId);
+  }
+  
+  private mostrarTodosLosProductos(): void {
+    this.categoriaActivaIndex = -1;
+    this.listadoproductosFiltrados = this.listadoproductos;
+  }
+
+  
+  
+
+  getCategoria(): void {
+    this.categoriaService.getCategoria().subscribe(
+      (categorias: CategoriaModel[]) => {
+        // Filtrar categorías que pertenecen a ProductoModel y excluyen ServiciosChmModel
+        this.listadocategoria = categorias.filter(categoria =>
+          this.listadoproductos.some(producto => producto.categoria.id === categoria.id) &&
+          !this.listadoservicio.some(servicio => servicio.categoria.id === categoria.id)
+        );
+      },
+      (error) => {
+        console.error('Error al obtener categorías:', error);
+      }
+    );
+  }
+  trackByIdCategoria(index: number, categoria: CategoriaModel): number {
+    return categoria.id;
+  }
 
   
   
@@ -146,20 +175,10 @@ export class PaginaProductosComponent implements OnInit {
     }
   }
 
-  getCategoria(): void {
-    this.categoriaService.getCategoria().subscribe(
-      (categorias: CategoriaModel[]) => {
-        // Filtrar categorías que pertenecen a ProductoModel y excluyen ServiciosChmModel
-        this.listadocategoria = categorias.filter(categoria =>
-          this.listadoproductos.some(producto => producto.categoria.id === categoria.id) &&
-          !this.listadoservicio.some(servicio => servicio.categoria.id === categoria.id)
-        );
-      },
-      (error) => {
-        console.error('Error al obtener categorías:', error);
-      }
-    );
-  }
+
+
+
+  
   
  
 

@@ -46,11 +46,11 @@
     </div>
   </div>
   
-  <p-dialog header="{{ selectedServ?.descripcion }}" [(visible)]="displayModal" [style]="{ width: '50%' }">
+  <p-dialog header="{{ selectedServ?.nombre}}" [(visible)]="displayModal" [style]="{ width: '50%' }">
     <div>
       <!-- Contenido del modal según el producto seleccionado -->
       <img [src]="selectedServ?.imagenes?.[0]?.publicUrl || ''" alt="{{ selectedServ?.descripcion }}" style="width: 100%;" class="card-img-top">
-
+      <p>{{ selectedServ?.descripcion }}</p>
       <button (click)="agregarAlCarrito(selectedServ)" onclick="showModal()">Agregar al carrito</button>
       <!-- Puedes agregar más detalles según tus necesidades -->
     </div>

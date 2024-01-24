@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ImagenModel } from '../entities/Imagen';
+import { ImagenModel, UpdateImagenDTO } from '../entities/Imagen';
 
 
 @Injectable({
@@ -32,7 +32,7 @@ export class ImagenesService {
         return this.http.delete(`${this.API_URL + this.endpointimagenes}/delete/${id}`);
       }
     
-    updateImagenes(filename: FormData): Observable<any> {
+    updateImagenes(filename: FormData): Observable<UpdateImagenDTO> {
         const headers = new HttpHeaders();
         // Ajusta el límite de carga útil según tus necesidades
         headers.append('Content-Length', filename.toString().length.toString());

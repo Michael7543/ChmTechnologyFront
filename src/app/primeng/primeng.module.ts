@@ -41,7 +41,7 @@ import { LayoutModule } from '../menu/layout.module';
 import { MessageService } from 'primeng/api';
 import { CarouselModule } from 'primeng/carousel';
 import { PanelModule } from 'primeng/panel';
-
+import { MegaMenuModule } from 'primeng/megamenu';
 
 @NgModule({
   imports: [
@@ -89,7 +89,8 @@ import { PanelModule } from 'primeng/panel';
     DynamicDialogModule,
     CardModule,
     CarouselModule,
-    PanelModule
+    PanelModule,
+    MegaMenuModule
   ],
   exports:[
     MenuModule,
@@ -134,7 +135,8 @@ import { PanelModule } from 'primeng/panel';
     ReactiveFormsModule,
     DynamicDialogModule,
     CarouselModule,
-    PanelModule
+    PanelModule,
+    MegaMenuModule
 
   ],
   declarations: [],

@@ -14,6 +14,7 @@
           <tr>
             <th>Nombre del Producto/Servicio</th>
             <th>Foto</th>
+            <th>Precio</th>
             <th>Cantidad</th>
             <th>Opciones</th>
           </tr>
@@ -37,6 +38,9 @@
                   height="50">
               </div>
             </td>
+            <td [ngClass]="{'no-existe': !carritoItem.producto?.precio && !carritoItem.servicio?.precio}">
+              {{ (carritoItem.producto?.precio | currency: 'USD') || (carritoItem.servicio?.precio | currency: 'USD') || 'Por Cotizar' }}
+            </td>            
             <td>
               <select class="form-select" [(ngModel)]="carritoItem.cantidad"
                 (change)="modificarCantidad(carritoItem, carritoItem.cantidad)">
@@ -48,6 +52,17 @@
                 (click)="eliminarCarrito(carritoItem.id)" aria-label="Eliminar"></button>
             </td>
           </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <tr>
+            <td colspan="4" class="text-right">Total:</td>
+            <td class="text-right">{{ calcularTotal() | currency: 'USD' }}</td>
+          </tr>
+          <tr>
+            <td colspan="4" class="text-right">Monto a cotizar:</td>
+            <td class="text-right">{{ calcularMontoCotizar() | currency: 'USD' }}</td>
+          </tr>
+          
         </ng-template>
       </p-table>
 

@@ -5,4 +5,6 @@ export interface ImagenModel {
     publicUrl:string;
  
  }
- 
+ export interface UpdateImagenDTO extends Partial<ImagenModel> {
+
+ }

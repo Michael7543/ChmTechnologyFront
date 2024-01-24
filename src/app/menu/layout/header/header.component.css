@@ -35,14 +35,14 @@ ul.items-social-media.d-flex {
 
 .login-button {
     padding   : 0.5rem 1.5rem;
-    background: #ad1fff;
+    background: #00406E;
     color     : white;
     font-size : 1rem;
     transition: all 0.3s background-color ease-in-out;
 }
 
 .login-button:hover {
-    background-color: #600097;
+    background-color: #015c9ee8;
 }
 
 .navbar-toggler {
@@ -80,7 +80,7 @@ button.btn-close.text-reset {
         transform       : translateX(-50%);
         width           : 0;
         height          : 2px;
-        background-color: #ad1fff;
+        background-color: #00406E;
         visibility      : hidden;
         transition      : all 0.3s ease-in-out;
     }

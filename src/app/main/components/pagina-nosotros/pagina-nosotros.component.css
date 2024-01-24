@@ -1,0 +1,13 @@
+.title-section__main-heading {
+    font-size: 1.5rem;
+}
+
+.container-equipo {
+    background-color: #eeeeee60;
+}
+
+.container-img-about {
+    position       : relative;
+    object-fit     : cover;
+    object-position: center center;
+}

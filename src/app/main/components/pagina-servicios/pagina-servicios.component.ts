@@ -7,7 +7,7 @@ import { ESTADO } from '../../enums/Estado';
 import { ServicioChmService } from '../../services/servicioschm.service';
 import { ImagenesService } from '../../services/imagenes.service';
 import { CategoriaService } from '../../services/categoria.service';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
 import { CarritoService } from '../../services/carrito.service';
 
@@ -18,14 +18,10 @@ import { CarritoService } from '../../services/carrito.service';
 })
 export class PaginaServiciosComponent implements OnInit {
   ServiciosForm: FormGroup = new FormGroup({});
-  isUploading = false;
-  selectedFile: string | ArrayBuffer | null = null;
   listadoservicios: ServiciosChmModel[] = [];
   listadoimagenes: ImagenModel[] = [];
   listadocategoria: CategoriaModel[] = [];
   selectProducto: UpdateServicioDTO = {};
-  estados = Object.values(ESTADO);
-  loading: boolean = true;
   carrito: any[] = [];
   servicios: ServiciosChmModel[] = [];
   displayModal: boolean = false;
@@ -33,16 +29,29 @@ export class PaginaServiciosComponent implements OnInit {
   listadoserviciosFiltrados: ServiciosChmModel[]=[];
   constructor(
     private serviciosService: ServicioChmService,
-    private imagenService: ImagenesService,
     private categoriaService: CategoriaService,
     private carritoService: CarritoService
   ) {
   }
 
   ngOnInit(): void {
-    this.getServicio();
-    this.getCategoria();
-    this.getImagenes();
+    forkJoin({
+      servicios: firstValueFrom(this.serviciosService.getServicio()),
+      categorias: this.categoriaService.getCategoria()
+    }).subscribe(
+      ({ servicios, categorias }) => {
+        this.listadoservicios = servicios;
+        console.log('Servicios:', this.listadoservicios);
+  
+        // Filtrar categorías después de obtener servicios
+        this.listadocategoria = categorias.filter(categoria =>
+          this.listadoservicios.some(servicio => servicio.categoria.id === categoria.id)
+        );
+      },
+      (error) => {
+        console.error('Error al obtener servicios o categorías:', error);
+      }
+    );
   }
 
   openModal(servicios: ServiciosChmModel): void {
@@ -73,8 +82,13 @@ export class PaginaServiciosComponent implements OnInit {
           // Aquí puedes agregar lógica adicional si es necesario
         },
         (error) => {
-          console.error('Error al agregar producto al carrito:', error);
-          // Maneja el error según sea necesario
+          this.displayModal = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Loguearse para poder agregar al carrito.',
+            text: 'El servicio no se ha agregado correctamente.',
+            timer: 2000
+          });
         }
       );
     } else {
@@ -84,31 +98,11 @@ export class PaginaServiciosComponent implements OnInit {
   }
 
 
-  async getServicio() {
-    try {
-      const data = await firstValueFrom(this.serviciosService.getServicio());
-      this.listadoservicios = data;
-      this.loading = false;
-      console.log('Productos:', this.listadoservicios);
-    } catch (error) {
-      console.error('Error al obtener productos:', error);
-    }
-  }
+ 
 
-  trackByImagen(index: number, imagen: any): number {
+ /*  trackByImagen(index: number, imagen: any): number {
     return imagen.id;
-  }
-
-  async getImagenes() {
-    try {
-      const data = await firstValueFrom(this.imagenService.getImagenes());
-      this.listadoimagenes = data;
-      this.loading = false;
-      console.log(this.listadoimagenes);
-    } catch (error) {
-      console.error('Error al obtener imágenes:', error);
-    }
-  }
+  } */
 
   getCategoria(): void {
     this.categoriaService.getCategoria().subscribe(
@@ -133,7 +127,15 @@ export class PaginaServiciosComponent implements OnInit {
       this.listadoserviciosFiltrados = this.listadoservicios;
     }
   }
-  
+  async getServicio() {
+    try {
+      const data = await firstValueFrom(this.serviciosService.getServicio());
+      this.listadoservicios = data;
+      console.log('Productos:', this.listadoservicios);
+    } catch (error) {
+      console.error('Error al obtener productos:', error);
+    }
+  }
  
  
 }

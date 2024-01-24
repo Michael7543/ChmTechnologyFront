@@ -1,19 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { WhatsappService } from '../../services/whasapp.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProductoModel, UpdateProductoDTO } from '../../entities/Producto';
-import { ImagenModel } from '../../entities/Imagen';
-import { CategoriaModel } from '../../entities/Categoria';
-import { ESTADO } from '../../enums/Estado';
-import { ProductosService } from '../../services/productos.service';
-import { ImagenesService } from '../../services/imagenes.service';
-import { CategoriaService } from '../../services/categoria.service';
-import { firstValueFrom } from 'rxjs';
+import { FormGroup } from '@angular/forms';
+import { firstValueFrom, forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
-import { CarritoService } from '../../services/carrito.service';
-import { CarritoModel } from '../../entities/Carrito';
+import { CategoriaModel } from '../../entities/Categoria';
+import { ProductoModel } from '../../entities/Producto';
 import { ServiciosChmModel } from '../../entities/ServiciosChm';
-import { MegaMenuItem } from 'primeng/api';
+import { CarritoService } from '../../services/carrito.service';
+import { CategoriaService } from '../../services/categoria.service';
+import { ProductosService } from '../../services/productos.service';
 
 @Component({
   selector: 'app-pagina-productos',
@@ -22,25 +16,15 @@ import { MegaMenuItem } from 'primeng/api';
 })
 export class PaginaProductosComponent implements OnInit {
   ProductosForm: FormGroup = new FormGroup({});
-  isUploading = false;
-  selectedFile: string | ArrayBuffer | null = null;
   listadoproductos: ProductoModel[] = [];
   listadoservicio: ServiciosChmModel[] = [];
-  listadoimagenes: ImagenModel[] = [];
   listadocategoria: CategoriaModel[] = [];
-  selectProducto: UpdateProductoDTO = {};
-  estados = Object.values(ESTADO);
-  loading: boolean = true;
-  carrito: CarritoModel[] = [];
-  productos: ProductoModel[] = [];
   displayModal: boolean = false;
   selectedProduct: ProductoModel | undefined;
   listadoproductosFiltrados: ProductoModel[] = [];
   categoriasConProductos: CategoriaModel[] = [];
-  categoriaActivaIndex: number | null = null;
   constructor(
     private productoService: ProductosService,
-    private imagenService: ImagenesService,
     private categoriaService: CategoriaService,
     private carritoService: CarritoService
   ) {
@@ -50,12 +34,25 @@ export class PaginaProductosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProducto();
-    this.getCategoria();
-    this.getImagenes();
-
+    forkJoin({
+      productos: this.productoService.getProductos(),
+      categorias: this.categoriaService.getCategoria()
+    }).subscribe(
+      ({ productos, categorias }) => {
+        this.listadoproductos = productos;
+        console.log('Productos:', this.listadoproductos);
+  
+        // Filtrar categorías después de obtener productos
+        this.listadocategoria = categorias.filter(categoria =>
+          this.listadoproductos.some(producto => producto.categoria.id === categoria.id) &&
+          !this.listadoservicio.some(servicio => servicio.categoria.id === categoria.id)
+        );
+      },
+      (error) => {
+        console.error('Error al obtener productos o categorías:', error);
+      }
+    );
     
-
   }
 
   
@@ -88,7 +85,7 @@ export class PaginaProductosComponent implements OnInit {
           this.displayModal = false;
           Swal.fire({
             icon: 'error',
-            title: 'Loguearse para poder agregar al carrito al Carrito',
+            title: 'Loguearse para poder agregar al carrito.',
             text: 'El producto no se ha agregado correctamente.',
             timer: 2000
           });
@@ -106,23 +103,13 @@ export class PaginaProductosComponent implements OnInit {
   filtrarPorCategoria(categoriaId: number): void {
     if (categoriaId) {
       this.filtrarProductosPorCategoria(categoriaId);
-    } else {
-      this.mostrarTodosLosProductos();
-    }
+    } 
   }
   
   private filtrarProductosPorCategoria(categoriaId: number): void {
     this.listadoproductosFiltrados = this.listadoproductos.filter(producto => producto.categoria.id === categoriaId);
   }
   
-  private mostrarTodosLosProductos(): void {
-    this.categoriaActivaIndex = -1;
-    this.listadoproductosFiltrados = this.listadoproductos;
-  }
-
-  
-  
-
   getCategoria(): void {
     this.categoriaService.getCategoria().subscribe(
       (categorias: CategoriaModel[]) => {
@@ -137,13 +124,10 @@ export class PaginaProductosComponent implements OnInit {
       }
     );
   }
-  trackByIdCategoria(index: number, categoria: CategoriaModel): number {
+ /*  trackByIdCategoria(index: number, categoria: CategoriaModel): number {
     return categoria.id;
-  }
+  } */
 
-  
-  
-  
   openModal(producto: ProductoModel): void {
     this.selectedProduct = producto;
     this.displayModal = true;
@@ -153,33 +137,10 @@ export class PaginaProductosComponent implements OnInit {
     try {
       const data = await firstValueFrom(this.productoService.getProductos());
       this.listadoproductos = data;
-      this.loading = false;
       console.log('Productos:', this.listadoproductos);
     } catch (error) {
       console.error('Error al obtener productos:', error);
     }
-  }
-
-  trackByImagen(index: number, imagen: any): number {
-    return imagen.id;
-  }
-
-  async getImagenes() {
-    try {
-      const data = await firstValueFrom(this.imagenService.getImagenes());
-      this.listadoimagenes = data;
-      this.loading = false;
-      console.log(this.listadoimagenes);
-    } catch (error) {
-      console.error('Error al obtener imágenes:', error);
-    }
-  }
-
-
-
-
-  
-  
- 
+  } 
 
 }

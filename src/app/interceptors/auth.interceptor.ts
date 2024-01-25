@@ -35,7 +35,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401 && !this.isRefreshing) {
-          console.error('Recibido error 401. Intentando actualizar el token.');
+         // console.error('Recibido error 401. Intentando actualizar el token.');
           return this.handle401Error(originalRequest, next);
         } else {
           return throwError(error);
@@ -62,7 +62,7 @@ export class AuthInterceptor implements HttpInterceptor {
     const decryptedUsername = this.authService.getUsername();
     if (!decryptedPassword) {
       // Manejar el caso en el que la contraseña no se puede desencriptar
-      console.error('No se pudo desencriptar la contraseña.');
+     // console.error('No se pudo desencriptar la contraseña.');
       // Puedes redirigir al usuario al inicio de sesión u otra lógica aquí
       return throwError('No se pudo desencriptar la contraseña');
     }
@@ -89,7 +89,7 @@ export class AuthInterceptor implements HttpInterceptor {
         return this.handleRequestWithTokenExpirationCheck(updatedRequest, request, next);
       }),
       catchError((refreshError) => {
-        console.error('Error refreshing token:', refreshError);
+        //console.error('Error refreshing token:', refreshError);
         this.isRefreshing = false;
 
         // Aquí decides si redirigir al usuario al login o manejar el error de otra manera

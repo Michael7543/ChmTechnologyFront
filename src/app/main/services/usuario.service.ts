@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map } from 'rxjs';
 import { UpdateUsuarioDTO, UsuarioModel } from '../entities/Usuario';
 import { RolesModel } from '../entities/Roles';
 import { environment } from 'src/environments/environment';
+import { jwtDecode } from 'jwt-decode';
 
 
 
@@ -33,6 +34,8 @@ export class UsuarioService {
     return this.http.get<UsuarioModel[]>(this.API_URL + this.endpointuserall);
   }
 
+ 
+
   getRoles(): Observable<RolesModel[]> {
     return this.http.get<RolesModel[]>(this.API_URL + this.endpointrol);
   }
@@ -45,6 +48,15 @@ export class UsuarioService {
   updateUsuario(id: number, report: UpdateUsuarioDTO): Observable<UpdateUsuarioDTO>{
     return this.http.put<UpdateUsuarioDTO>(`${this.API_URL + this.endpointuser}/edit/${id}`, report )
   }
+
+  getUsuarioid(id: number): Observable<UsuarioModel>{
+    return this.http.get<UsuarioModel>(`${this.API_URL + this.endpointuser}/${id}` )
+  }
+
+  
+
+
+  
   
   
 }

@@ -1,3 +1,176 @@
-<p>
-  perfil-usuario works!
-</p>
+
+<app-header></app-header>
+
+<div class="container">
+  <h2 class="mt-5 text-center fw-bold">Perfil</h2>
+  <p-table [style]="{width: '75vw'}" class="card table__content shadow-9 m-3 surface-card table-container" #dt
+    [value]="listadousuario" dataKey="id" [rows]="1" id="season-tble" [showCurrentPageReport]="true" 
+    responsiveLayout="scroll" 
+    [rowHover]="true"
+    [globalFilterFields]="['id','nombre','apellido','telefono','direccion','email','username','role.name']"
+    [loading]="loading">
+    
+    <ng-template pTemplate="header" let-producto>
+      <tr>
+        <th>ID</th>
+        <th pSortableColumn="nombre" class="d-flex " style="min-width: 10rem; max-width: 10rem; align-items: center; justify-content: center; ">Nombre<p-sortIcon field="nombre">
+          </p-sortIcon>
+        </th>
+        <th>Apellido</th>
+        <th>Correo</th>
+        <th>Direccion</th>
+        <th>Telefono</th>
+        <th>Username</th>
+        <th>Acciones</th>
+
+      </tr>
+    </ng-template>
+
+
+    <ng-template pTemplate="body" let-usuario>
+      <ng-container *ngIf="listadousuario">
+        <tr class="tablas">
+          <td>{{ usuario.id }}</td>
+          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.apellido }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.direccion }}</td>
+          <td>{{ usuario.telefono}}</td>
+          <td>{{ usuario.username}}</td>
+          <td class="btn_acctions-mod">
+            <button pButton pRipple icon="pi pi-pencil" class="btn-acctions rounded-3" style="background-color:#FB8B24;"
+            (click)="editusuario(usuario)"
+              aria-label="Editar"></button>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{ width: '30rem' }"
+[breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" >
+  <div class="card bg-glass rounded-5">
+    <div class="card-body px-4 py-5 px-md-5">
+      <form [formGroup]="FormUsuario" (ngSubmit)="updateUsuario()">
+        <div class="form-outline mb-4">
+          <h1 class="text-center fw-bold ls-tight">Editar Perfil</h1>
+        </div>
+        <div class="row formgrid grid">
+          <!-- Nombre input -->
+          <div class="col-md-6 form-outline mb-4">
+            <label for="" class="form-label p-text-bold">Nombre</label>
+            <input type="text" (input)="onInputletras($event)" class="form-control" formControlName="nombre"
+              name="nombre" title="Ingrese su nombre" required>
+            <ng-container *ngTemplateOutlet="mensajeErrorNombre"></ng-container>
+          </div>
+          <!-- Apellido input -->
+          <div class="col-md-6 form-outline mb-4">
+            <label for="" class="form-label p-text-bold">Apellido</label>
+            <input type="text" (input)="onInputletras($event)" class="form-control" formControlName="apellido"
+              name="apellido" title="Ingrese su Apellido" required>
+            <ng-container *ngTemplateOutlet="mensajeErrorApellido"></ng-container>
+          </div>
+        </div>
+        <!-- Email input -->
+        <div class="form-outline mb-2 input-mod">
+          <label for="email" class="form-label p-text-bold">Correo Electrónico</label>
+          <input type="email" id="email" class="form-control" formControlName="email" name="email"
+            title="Ingrese su correo electrónico" pattern="[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
+          <ng-container *ngTemplateOutlet="mensajeErrorEmail"></ng-container>
+        </div>
+        <!-- Username input -->
+        <div class="form-outline mb-2 input-mod">
+          <label class="form-label p-text-bold" for="username">Nombre de usuario</label>
+          <input type="text" id="username" autocomplete="username" class="form-control" formControlName="username"
+            name="username" title="Ingrese su nombre de usuario" required />
+          <ng-container *ngTemplateOutlet="mensajeErrorUsername"></ng-container>
+        </div>
+        <div class="row formgrid grid">
+          <!-- telefono input -->
+          <div class="col-md-6 form-outline mb-4">
+            <label for="telefono" class="form-label p-text-bold">Teléfono</label>
+            <input type="text" (input)="onInput($event)" minlenght="10" maxlength="10" keyfilter="int"
+              class="form-control" formControlName="telefono" name="telefono"
+              title="Ingrese su número de teléfono" required>
+            <ng-container *ngTemplateOutlet="mensajeErrorTelefono"></ng-container>
+          </div>
+          <!-- input dirección -->
+          <div class="col-md-6 form-outline mb-4">
+            <label for="direccion" class="form-label p-text-bold">Dirección</label>
+            <input type="text" class="form-control" formControlName="direccion" name="direccion"
+              title="Ingrese su Dirección" required>
+            <ng-container *ngTemplateOutlet="mensajeErrorDireccion"></ng-container>
+          </div>
+        </div>
+        
+        <!-- Password input -->
+
+        <!-- <div class="form-outline mb-4 position-relative">
+          <label class="form-label p-text-bold" for="password">Contraseña</label>
+          <input type="password" id="password" class="form-control" name="password" formControlName="password"
+            [type]="mostrarContrasenia ? 'text' : 'password'" autocomplete="password" aria-label="Contraseña"
+            title="Ingrese su contraseña" />
+
+          <a (click)="mostrarContrasenia = !mostrarContrasenia" class="eye-icon" aria-label="Mostrar Contraseña"
+            href="javascript:void(0)">
+            <i class="pi pi-eye-slash" aria-label="Icono Contraseña oculta" title="ocultar / mostar"></i>
+          </a>
+        </div> -->
+
+        <!-- Botón de enviar -->
+        <button type="submit" 
+          class="btn btn-primary btn-block mb-4 w-100 p-text-bold" aria-label="Actualizar">
+          Actualizar
+        </button>
+      </form>
+    </div>
+  </div>
+</p-dialog>
+
+
+
+<!-- Templates mesajes de error -->
+
+<ng-template #mensajeErrorNombre>
+  <div class="text-danger"
+    *ngIf="FormUsuario.get('nombre')?.hasError('required') && FormUsuario.get('nombre')?.touched">
+    <small>*Campo <strong>obligatorio</strong></small>
+  </div>
+</ng-template>
+
+<ng-template #mensajeErrorApellido>
+  <div class="text-danger"
+    *ngIf="FormUsuario.get('apellido')?.hasError('required') && FormUsuario.get('apellido')?.touched">
+    <small>*Campo <strong>obligatorio</strong></small>
+  </div>
+</ng-template>
+
+<ng-template #mensajeErrorUsername>
+  <div class="text-danger"
+    *ngIf="FormUsuario.get('username')?.hasError('required') && FormUsuario.get('username')?.touched">
+    <small>*Campo <strong>obligatorio</strong></small>
+  </div>
+</ng-template>
+
+<ng-template #mensajeErrorTelefono>
+  <div class="text-danger"
+    *ngIf="FormUsuario.get('telefono')?.hasError('required') && FormUsuario.get('telefono')?.touched">
+    <small>*Campo <strong>obligatorio</strong></small>
+  </div>
+</ng-template>
+
+<ng-template #mensajeErrorDireccion>
+  <div class="text-danger"
+    *ngIf="FormUsuario.get('direccion')?.hasError('required') && FormUsuario.get('direccion')?.touched">
+    <small>*Campo <strong>obligatorio</strong></small>
+  </div>
+</ng-template>
+
+<ng-template #mensajeErrorEmail>
+  <div class="text-danger" *ngIf="FormUsuario.get('email')?.hasError('required') && FormUsuario.get('email')?.touched">
+    <small>*Campo <strong>obligatorio</strong></small>
+  </div>
+</ng-template>
+
+<app-footer></app-footer>

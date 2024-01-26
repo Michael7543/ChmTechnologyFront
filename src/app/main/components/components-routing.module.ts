@@ -10,6 +10,7 @@ import { PaginaServiciosComponent } from './pagina-servicios/pagina-servicios.co
 import { NotFoundComponent } from 'src/app/not-found/not-found.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'inicio', pathMatch: 'full'},
   { path: 'inicio',  component:PaginaInicioComponent, pathMatch: 'full' },
   {
     path: 'auth',

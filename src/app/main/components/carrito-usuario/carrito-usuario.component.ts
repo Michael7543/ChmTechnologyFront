@@ -67,10 +67,8 @@ export class CarritoUsuarioComponent implements OnInit {
   }
 
   enviarMensajeWhatsApp(mensaje: string) {
-    // Reemplaza TU_NUMERO_DE_TELEFONO con el número de teléfono al que deseas enviar el mensaje.
     const numeroTelefono = '+593998684386';
 
-    // Construye el enlace de WhatsApp usando la API de mensajes de texto.
     const urlWhatsApp = `https://api.whatsapp.com/send?phone=${encodeURIComponent(
       numeroTelefono
     )}&text=${encodeURIComponent(mensaje)}`;
@@ -112,8 +110,6 @@ export class CarritoUsuarioComponent implements OnInit {
     this.listadocarrito = this.listadocarrito.filter(
       (item) => item.usuario && item.usuario.email === username
     );
-
-    //console.log('Carrito después del filtrado:', this.listadocarrito);
     const cantidadRegistros = this.listadocarrito.length;
     this.catidadRegistrosService.actualizarCantidadRegistros(cantidadRegistros);
   }

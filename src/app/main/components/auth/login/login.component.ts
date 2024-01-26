@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit {
             timerProgressBar: true,
             showConfirmButton: false,
           });
-          console.log('id del user',this.extractUserId(response.accessToken));
+          console.log('id del user', this.extractUserId(response.accessToken));
           const userRole = this.extractUserRole(response.accessToken);
           this.redirectBasedOnUserRole(userRole);
         } else {
@@ -142,22 +142,21 @@ export class LoginComponent implements OnInit {
 
   private extractUserId(accessToken: string): string {
     try {
-        const decodedToken: any = jwtDecode(accessToken);
+      const decodedToken: any = jwtDecode(accessToken);
 
-        // Verifica si el campo "sub" existe
-        if (decodedToken.sub) {
-          console.log('decored',decodedToken.sub)
-            return decodedToken.sub;
-        } else {
-            console.error('El campo "sub" no existe en el token.');
-            return '';
-        }
-    } catch (error) {
-        console.error('Error al extraer el ID de usuario del token', error);
+      // Verifica si el campo "sub" existe
+      if (decodedToken.sub) {
+        console.log('decored', decodedToken.sub);
+        return decodedToken.sub;
+      } else {
+        console.error('El campo "sub" no existe en el token.');
         return '';
+      }
+    } catch (error) {
+      console.error('Error al extraer el ID de usuario del token', error);
+      return '';
     }
-}
-
+  }
 
   /* private extractUserRole(accessToken: string): string {
     try {

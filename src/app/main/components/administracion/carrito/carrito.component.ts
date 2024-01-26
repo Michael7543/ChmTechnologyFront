@@ -25,7 +25,6 @@ export class CarritoComponent implements OnInit {
       const data = await firstValueFrom(this.carritoService.getCarrito());
       this.listadocarrito = data;
       this.loading = false;
-      //console.log('Carrito:', this.listadocarrito);
     } catch (error) {
       console.error('Error al obtener carrito:', error);
     }

@@ -56,7 +56,7 @@ export class CarritoUsuarioComponent implements OnInit {
 
     // Preparar el mensaje para WhatsApp, incluyendo el monto a cotizar
     const mensajeWhatsApp =
-      `Hola, estoy listo para pagar. Aquí está mi pedido:\n\n` +
+      `Hola, estoy listo para adquirir mis productos. Aquí está mi pedido:\n\n` +
       productosServicios
         .map((item) => `${item.nombre} - Cantidad: ${item.cantidad}`)
         .join('\n') +

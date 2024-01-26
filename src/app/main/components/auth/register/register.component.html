@@ -26,7 +26,7 @@
 
         <div class="card bg-glass rounded-5">
           <div class="card-body px-4 py-5 px-md-5">
-            <form [formGroup]="FormUsuario" (ngSubmit)="agregarUsuario()">
+            <form [formGroup]="FormUsuario" (ngSubmit)="agregarUsuario()" method="post" enctype="text/plain">
               <div class="form-outline mb-4">
                 <h1 class="text-center fw-bold ls-tight">Registrarse</h1>
               </div>
@@ -111,15 +111,17 @@
 
                 <p class="p-text-bold text-decoration-underline">Contáctanos:</p>
                 <button type="button" class="btn btn-link btn-floating mx-1 btn-social" aria-label="Facebook"
-                  title="Página de Facebook Oficial">
+                  title="Página de Facebook Oficial"
+                  onclick="window.open('https://www.facebook.com/profile.php?id=100093239103227&mibextid=ZbWKwL', '_blank')">
                   <i class="bi bi-facebook" alt="Facebook"></i>
                 </button>
 
-                <button type="button" class="btn btn-link btn-floating mx-1 btn-social" aria-label="Gmail">
+                <button type="button" class="btn btn-link btn-floating mx-1 btn-social" aria-label="Gmail"
+                  onclick="window.location.href='mailto:chmtechnology9@gmail.com'">
                   <i class="bi bi-google" alt="Gmail"></i>
                 </button>
 
-                <button type="button" class="btn btn-link btn-floating mx-1 btn-social" aria-label="TikTok">
+                <button type="button" class="btn btn-link btn-floating mx-1 btn-social" aria-label="TikTok" onclick="window.open('https://www.tiktok.com/@hernanmejia356?_t=8jJcIXCZPN7&_r=1', '_blank')">
                   <i class="bi bi-tiktok" alt="Tiktok" title="Página de Tiktok Oficial"></i>
                 </button>
               </div>
